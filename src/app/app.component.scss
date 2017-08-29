@@ -1,0 +1,24 @@
+.container {
+  display: grid;
+  grid-template-rows: 64px calc(100vh - 64px - 32px) 32px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: 
+    "header header header"
+    "main main main"
+    "footer footer footer"; 
+}
+
+.header {
+  grid-area: header;
+  align-self: center;
+}
+.main {
+  grid-area: main;
+  align-self: center;
+  justify-self: center;
+}
+.footer {
+  grid-area: footer;
+  align-self: center;
+  justify-self: end;
+}
