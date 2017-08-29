@@ -1,11 +1,16 @@
-import { RouteGuardService } from './shared/services/route-guard/route-guard.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Router, Event, NavigationStart, NavigationEnd } from '@angular/router';
+import { PageNotFoundComponent } from './page-not-found.component';
+import { RouteGuardService } from './shared/services/route-guard/route-guard.service';
+
 
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+  {
+    path: 'auth',
+    loadChildren: './authentication/authentication.module#AuthenticationModule',
+  },
   {
     path: 'users',
     loadChildren: './users/users.module#UsersModule',
@@ -29,7 +34,8 @@ const appRoutes: Routes = [
     loadChildren: './profile/profile.module#ProfileModule',
     canActivate: [ RouteGuardService ],
     data: { routeKey: 'profile'}
-  }
+  },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

@@ -1,3 +1,21 @@
-<p>
-  login works!
-</p>
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
+  <div class="field">
+    <label>Email</label>
+    <input type="email" formControlName="email">
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input type="password" formControlName="password">
+  </div>
+  <button class="button" type="submit" [disabled]="!loginForm.valid" [ngClass]="{'disabled-button': !loginForm.valid }">Login in</button>
+</form>
+<div class="register">
+  <span>Not registered yet?</span>
+  <a (click)="register()">Sign up here</a>
+</div>
+<div class="forgot-password">
+  <span>Forgot your password?</span>
+  <a (click)="resetPassword()">Reset it here</a>
+</div>
+
+<jaspero-alerts [defaultSettings]="{ duration: 0 }"></jaspero-alerts>

@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 .container {
   display: grid;
   grid-template-rows: 64px calc(100vh - 64px - 32px) 32px;
@@ -22,3 +26,4 @@
   align-self: center;
   justify-self: end;
 }
+

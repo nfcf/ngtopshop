@@ -53,10 +53,11 @@ export class AuthService {
     });
   }
 
-  registerWithEmail(email: string, password: string): Observable<any> {
+  registerWithEmail(displayName: string, email: string, password: string): Observable<any> {
     return Observable.create((observer: Observer<boolean>) => {
       this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((user: firebase.User) => {
         const userProfile = <UserProfile> {
+          displayName: displayName,
           role: 'user'
         };
         user.sendEmailVerification().then(() => {
@@ -92,7 +93,6 @@ export class AuthService {
       this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((data: any) => {
         const userProfile = <UserProfile>{
           displayName: data.user.providerData[0].displayName || '',
-
           role: 'user'
         };
         this.updateUserProfile(data.user, userProfile).subscribe(
