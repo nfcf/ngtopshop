@@ -14,7 +14,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 
-import { AuthService } from './shared/services';
+import { AuthService, DbService, RouteGuardService } from './shared/services';
 
 import { environment } from '../environments/environment';
 
@@ -39,6 +39,8 @@ import { environment } from '../environments/environment';
   ],
   providers: [
     AuthService,
+    DbService,
+    RouteGuardService,
     LocalStorageService
   ],
   bootstrap: [AppComponent]

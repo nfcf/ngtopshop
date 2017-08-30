@@ -8,8 +8,8 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class RouteGuardService implements CanActivate {
-  private readonly ADMIN_ROUTES = [];
-  private readonly MANAGER_ROUTES = [];
+  private readonly ADMIN_ROUTES = ['products'];
+  private readonly MANAGER_ROUTES = ['products'];
   private readonly USER_ROUTES = [];
 
   constructor(private router: Router, private authService: AuthService) {

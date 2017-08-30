@@ -31,7 +31,9 @@ export class LoginComponent implements OnInit {
       const model = this.loginForm.value;
       this.authService.loginWithEmail(model.email, model.password).subscribe(
         (response: any) => {
-          this.router.navigate(['home']);
+          const role = this.authService.userProfile.role;
+          const newRoute = role === 'admin' || role === 'manager' ? 'products' : 'home';
+          this.router.navigate([newRoute]);
         },
         (error: any) => {
           this.alertService.create('error', error.message);
