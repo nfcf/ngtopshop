@@ -1,9 +1,10 @@
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { State, Store } from '@ngrx/store';
 import { AlertsService } from '@jaspero/ng2-alerts';
 import { AuthService } from './../../../shared/services';
-
+import * as RouterActions from 'app/store/actions/router.actions';
+import * as fromRoot from 'app/store/reducers';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private router: Router,
+              private store: Store<fromRoot.State>,
               private authService: AuthService,
               private alertService: AlertsService) {
     this.registerForm = formBuilder.group({
@@ -33,7 +34,7 @@ export class RegisterComponent implements OnInit {
       const model = this.registerForm.value;
       this.authService.registerWithEmail(model.name, model.email, model.password).subscribe(
         (response: any) => {
-          this.router.navigate(['auth/login']);
+          this.store.dispatch(new RouterActions.Go({ path: ['auth/login'] }));
           setTimeout(() => {
             this.alertService.create('success', 'A verification email has been sent to your account!');
           }, 500);
@@ -46,7 +47,7 @@ export class RegisterComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate(['auth/login']);
+    this.store.dispatch(new RouterActions.Go({ path: ['auth/login'] }));
   }
 
 }

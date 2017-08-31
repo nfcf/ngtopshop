@@ -1,8 +1,10 @@
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { State, Store } from '@ngrx/store';
 import { AlertsService } from '@jaspero/ng2-alerts';
 import { AuthService } from './../../../shared/services';
+import * as RouterActions from 'app/store/actions/router.actions';
+import * as fromRoot from 'app/store/reducers';
 
 
 @Component({
@@ -14,7 +16,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private router: Router,
+              private store: Store<fromRoot.State>,
               private authService: AuthService,
               private alertService: AlertsService) {
     this.loginForm = formBuilder.group({
@@ -33,7 +35,7 @@ export class LoginComponent implements OnInit {
         (response: any) => {
           const role = this.authService.userProfile.role;
           const newRoute = role === 'admin' || role === 'manager' ? 'products' : 'home';
-          this.router.navigate([newRoute]);
+          this.store.dispatch(new RouterActions.Go({ path: [newRoute] }));
         },
         (error: any) => {
           this.alertService.create('error', error.message);
@@ -43,7 +45,7 @@ export class LoginComponent implements OnInit {
   }
 
   register() {
-    this.router.navigate(['auth/register']);
+    this.store.dispatch(new RouterActions.Go({ path: ['auth/register'] }));
   }
 
   resetPassword() {
