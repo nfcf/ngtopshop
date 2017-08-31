@@ -1,12 +1,17 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
+import { State, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { LocalStorageService } from 'ngx-store';
-import { UserProfile } from '../../models/index';
+import { UserProfile } from '../../models';
+
+import * as RouterActions from 'app/store/actions/router.actions';
+import * as UserProfileActions from 'app/store/actions/user-profile.actions';
+import * as fromRoot from 'app/store/reducers';
 
 import * as firebase from 'firebase/app';
 
@@ -18,26 +23,12 @@ export class AuthService {
 
   user: firebase.User;
 
-  private _userProfile: UserProfile;
-  get userProfile(): UserProfile {
-    if (this._userProfile) {
-      return this._userProfile;
-    } else {
-      return this.localStorageService.get(this.KEY_USER_PROFILE);
-    }
-  }
-  set userProfile(profile: UserProfile) {
-    this._userProfile = profile;
-    this.localStorageService.set(this.KEY_USER_PROFILE, this.userProfile);
-  }
-
   private userProfileSubscription: Subscription;
   private isFirstTime: boolean;
 
   constructor(private afAuth: AngularFireAuth,
               private afDatabase: AngularFireDatabase,
-              private localStorageService: LocalStorageService,
-              private router: Router) {
+              private store: Store<fromRoot.State>) {
     this.isFirstTime = true;
 
     afAuth.authState.subscribe((user: firebase.User) => {
@@ -115,11 +106,11 @@ export class AuthService {
       this.userProfileSubscription.unsubscribe();
     }
     this.user = null;
-    this.localStorageService.clear();
+    localStorage.clear(); // this clears any remaining firebase localStorage stuff...
 
     setTimeout(() => {
       this.afAuth.auth.signOut();
-      this.router.navigate(['/login']);
+      this.store.dispatch(new RouterActions.Go({ path: ['auth/login'] }));
     });
   }
 
@@ -131,6 +122,15 @@ export class AuthService {
           }).catch((error: any) => {
             observer.error(error);
           });
+    });
+  }
+
+  getUserProfile(): Observable<UserProfile> {
+    return this.store.select((state) => {
+      return state.userProfile.userProfile;
+    })
+    .map((profile: UserProfile) => {
+      return profile;
     });
   }
 
@@ -157,8 +157,8 @@ export class AuthService {
   private setUserAndFetchProfile(user: firebase.User) {
     if (!this.user && user) {
       this.user = user;
-      this.userProfileSubscription = this.afDatabase.object(this.DB_USERS_REF + this.user.uid).subscribe((userProfile: any) => {
-        this.userProfile = userProfile;
+      this.userProfileSubscription = this.afDatabase.object(this.DB_USERS_REF + this.user.uid).subscribe((profile: any) => {
+        this.store.dispatch(new UserProfileActions.SetUserProfile(profile));
       });
     }
   }
