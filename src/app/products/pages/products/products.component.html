@@ -1,5 +1,27 @@
-<div *ngFor="let product of products">
-  <h3>{{product.name}}</h3>
-  <p>{{product.description}}</p>
-  <p>{{product.price}}</p>
-</div>
+<button (click)="newProduct()">New Product</button>
+<br>
+<ul>
+  <div *ngFor="let product of products">
+    <h3>{{product.name}}</h3>
+    <p>{{product.description}}</p>
+    <p>{{product.price}}</p>
+  </div>
+</ul>
+
+<p-dialog [(visible)]="modal.visible">
+  <p-header>
+    {{modal.title}}
+  </p-header>
+  <div [formGroup]="formGroup">
+    <label>Name</label>
+    <input name="name" formControlName="name"/>
+    <label>Description</label>
+    <input name="decription" formControlName="description"/>
+    <label>Price</label>
+    <input name="price" formControlName="price"/>
+  </div>
+  <p-footer>
+    <button (click)="cancel()">Cancel</button>
+    <button (click)="save()">Save</button>
+  </p-footer>
+</p-dialog>

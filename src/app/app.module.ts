@@ -11,12 +11,15 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { LocalStorageService } from 'ngx-store';
 import { JasperoAlertsModule } from '@jaspero/ng2-alerts';
+import { DialogModule } from 'primeng/primeng';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found.component';
+import { EditProductComponent } from './products/components';
+import { ProductsService } from './products/services';
 
 import { CustomRouterStateSerializer } from './shared/utils';
 import { AuthService, DbService, RouteGuardService } from './shared/services';
@@ -44,7 +47,8 @@ import { environment } from '../environments/environment';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
 
-    JasperoAlertsModule
+    JasperoAlertsModule,
+    DialogModule
   ],
   declarations: [
     AppComponent,
@@ -55,6 +59,7 @@ import { environment } from '../environments/environment';
     DbService,
     RouteGuardService,
     LocalStorageService,
+    ProductsService,
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
      * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided

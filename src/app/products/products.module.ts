@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { DialogModule } from 'primeng/primeng';
+
 import { ProductsRoutingModule } from './products-routing.module';
 
 import { ProductsComponent } from './pages';
@@ -14,7 +16,9 @@ import { ProductsService } from './services';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    ProductsRoutingModule
+    ProductsRoutingModule,
+
+    DialogModule
   ],
   declarations: [
     ProductsComponent
