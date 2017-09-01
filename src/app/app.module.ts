@@ -18,7 +18,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
 
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found.component';
-import { EditProductComponent } from './products/components';
 import { ProductsService } from './products/services';
 
 import { CustomRouterStateSerializer } from './shared/utils';

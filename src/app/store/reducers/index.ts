@@ -5,6 +5,7 @@ import {
   ActionReducer,
   MetaReducer,
 } from '@ngrx/store';
+import { localStorageSync } from 'ngrx-store-localstorage';
 import { environment } from 'environments/environment';
 import { RouterStateUrl } from 'app/shared/utils';
 import * as fromRouter from '@ngrx/router-store';
@@ -37,7 +38,6 @@ export const reducers: ActionReducerMap<State> = {
   routerReducer: fromRouter.routerReducer,
 };
 
-// console.log all actions
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
   return function(state: State, action: any): State {
     console.log('state', state);
@@ -46,6 +46,9 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
     return reducer(state, action);
   };
 }
+export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  return localStorageSync({ keys: ['userProfile'], rehydrate: true })(reducer);
+}
 
 /**
  * By default, @ngrx/store uses combineReducers with the reducer map to compose
@@ -53,8 +56,8 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
  * that will be composed to form the root meta-reducer.
  */
 export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? [logger]
-  : [];
+  ? [localStorageSyncReducer, logger]
+  : [localStorageSyncReducer];
 
 /**
  * UserProfile Reducers

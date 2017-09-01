@@ -10,7 +10,8 @@ import * as UserProfileActions from 'app/store/actions/user-profile.actions';
 import * as fromRoot from 'app/store/reducers';
 
 import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/zip';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/observable/of';
 
 @Injectable()
 export class RouteGuardService implements CanActivate {
@@ -23,16 +24,18 @@ export class RouteGuardService implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-    return Observable.zip(
-        this.authService.isAuthenticated(),
-        this.authService.getUserProfile())
-      .map((authAndProfile: [boolean, UserProfile]) => {
-        if (!authAndProfile[0]) {
+    return this.authService.isAuthenticated().mergeMap(
+      (isAuthenticated: boolean) => {
+        if (!isAuthenticated) {
           this.store.dispatch(new RouterActions.Go({ path: ['auth/login'] }));
-          return false;
+          return Observable.of(false);
         } else {
-          const allowedRoutes = this.getAllowedRoutesForRole(authAndProfile[1].role);
-          return allowedRoutes.indexOf(route.data.routeKey) >= 0;
+          return this.authService.getUserProfile().map(
+            (profile: UserProfile) => {
+              const allowedRoutes = this.getAllowedRoutesForRole(profile.role);
+              return allowedRoutes.indexOf(route.data.routeKey) >= 0;
+            }
+          );
         }
       });
   }

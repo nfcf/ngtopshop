@@ -38,9 +38,7 @@ export class AuthService {
 
   isAuthenticated(): Observable<boolean> {
     return Observable.create((observer: Observer<boolean>) => {
-      setTimeout(() => {
-        this.internalIsAuthenticatedCheck(observer);
-      }, 100);
+      this.internalIsAuthenticatedCheck(observer);
     });
   }
 
@@ -143,7 +141,7 @@ export class AuthService {
       }, 100);
     } else {
       if (this.user && this.user.emailVerified) {
-        this.user.getToken().then((token: string) => {
+        this.user.getIdToken().then((token: string) => {
           observer.next(true);
           observer.complete();
         });
