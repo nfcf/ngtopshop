@@ -11,6 +11,7 @@
       <label>Password</label>
       <input type="password" formControlName="password">
     </div>
+    <re-captcha site_key="6LceURgUAAAAAA3NcaB99elUN40ogMnDAPjqBaN0"></re-captcha>
     <button class="button" type="submit" [disabled]="!registerForm.valid" [ngClass]="{'disabled-button': !registerForm.valid }">Register</button>
   </form>
   <div class="register">

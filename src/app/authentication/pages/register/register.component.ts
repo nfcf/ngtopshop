@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ReCaptchaComponent } from 'angular2-recaptcha';
 import { State, Store } from '@ngrx/store';
 import { AlertsService } from '@jaspero/ng2-alerts';
 import { AuthService } from './../../../shared/services';
@@ -13,6 +14,8 @@ import * as fromRoot from 'app/store/reducers';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  @ViewChild(ReCaptchaComponent) recaptcha: ReCaptchaComponent;
+
   registerForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
@@ -30,11 +33,12 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    if (this.registerForm.valid) {
+    const token = this.recaptcha.getResponse();
+    if (this.registerForm.valid && token) {
       const model = this.registerForm.value;
       this.authService.registerWithEmail(model.name, model.email, model.password).subscribe(
         (response: any) => {
-          this.store.dispatch(new RouterActions.Go({ path: ['auth/login'] }));
+          this.authService.logout(); // this clears any inmemory user and goes to the login page
           setTimeout(() => {
             this.alertService.create('success', 'A verification email has been sent to your account!');
           }, 500);

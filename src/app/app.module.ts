@@ -11,7 +11,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { LocalStorageService } from 'ngx-store';
 import { JasperoAlertsModule } from '@jaspero/ng2-alerts';
-import { DialogModule } from 'primeng/primeng';
+import { DialogModule, PanelModule } from 'primeng/primeng';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthenticationModule } from './authentication/authentication.module';
@@ -24,7 +24,7 @@ import { CustomRouterStateSerializer } from './shared/utils';
 import { AuthService, DbService, RouteGuardService } from './shared/services';
 
 import { reducers, metaReducers } from './store/reducers';
-import { RouterEffects } from './store/effects/router.effects';
+import { ProductEffects, RouterEffects } from './store/effects';
 
 import { environment } from '../environments/environment';
 
@@ -37,7 +37,7 @@ import { environment } from '../environments/environment';
 
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreRouterConnectingModule,
-    EffectsModule.forRoot([RouterEffects]),
+    EffectsModule.forRoot([ProductEffects, RouterEffects]),
 
     AppRoutingModule,
     AuthenticationModule,
@@ -47,7 +47,8 @@ import { environment } from '../environments/environment';
     AngularFireAuthModule,
 
     JasperoAlertsModule,
-    DialogModule
+    DialogModule,
+    PanelModule
   ],
   declarations: [
     AppComponent,

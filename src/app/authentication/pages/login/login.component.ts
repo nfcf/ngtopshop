@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { State, Store } from '@ngrx/store';
 import { AlertsService } from '@jaspero/ng2-alerts';
@@ -7,12 +7,14 @@ import * as RouterActions from 'app/store/actions/router.actions';
 import * as fromRoot from 'app/store/reducers';
 
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
   loginForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,

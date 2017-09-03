@@ -13,7 +13,6 @@ const intitialState: State = {
 
 
 export function reducer(state = intitialState, action: userProfileActions.Actions) {
-  console.log('Action came in! ' + action.type);
   switch (action.type) {
     case userProfileActions.SET_USER_PROFILE:
       return {
