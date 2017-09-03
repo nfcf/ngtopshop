@@ -1,9 +1,9 @@
-import { Product } from 'app/shared/models';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Effect, Actions } from '@ngrx/effects';
 import * as ProductActions from 'app/store/actions/product.actions';
 import { ProductsService } from './../../products/services';
+import { Product } from 'app/shared/models';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -27,14 +27,14 @@ export class ProductEffects {
 
   @Effect({ dispatch: false })
   update$ = this.actions$.ofType(ProductActions.UPDATE)
-    .map((action: ProductActions.New) => action.payload)
+    .map((action: ProductActions.Update) => action.payload)
     .switchMap((data: Product) => {
       return this.productService.update(data);
     });
 
   @Effect({ dispatch: false })
   delete$ = this.actions$.ofType(ProductActions.DELETE)
-    .map((action: ProductActions.New) => action.payload)
+    .map((action: ProductActions.Delete) => action.payload)
     .switchMap((data: Product) => {
       return this.productService.delete(data);
     });

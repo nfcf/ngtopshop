@@ -6,8 +6,7 @@ import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { LocalStorageService } from 'ngx-store';
-import { UserProfile } from '../../models';
+import { User } from '../../models';
 
 import * as RouterActions from 'app/store/actions/router.actions';
 import * as UserProfileActions from 'app/store/actions/user-profile.actions';
@@ -19,7 +18,6 @@ import * as firebase from 'firebase/app';
 @Injectable()
 export class AuthService {
   private readonly DB_USERS_REF = '/users/';
-  private readonly KEY_USER_PROFILE = 'user_profile';
 
   user: firebase.User;
 
@@ -45,12 +43,12 @@ export class AuthService {
   registerWithEmail(displayName: string, email: string, password: string): Observable<any> {
     return Observable.create((observer: Observer<boolean>) => {
       this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((user: firebase.User) => {
-        const userProfile = <UserProfile> {
+        const profile = <User> {
           displayName: displayName,
           role: 'user'
         };
         user.sendEmailVerification().then(() => {
-          this.afDatabase.object(this.DB_USERS_REF + user.uid).set(userProfile).then(() => {
+          this.afDatabase.object(this.DB_USERS_REF + user.uid).set(profile).then(() => {
             observer.next(true);
             observer.complete();
           }).catch((error: any) => {
@@ -80,11 +78,11 @@ export class AuthService {
   loginWithGoogle(): Observable<any> {
     return Observable.create((observer: Observer<boolean>) => {
       this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((data: any) => {
-        const userProfile = <UserProfile>{
+        const profile = <User>{
           displayName: data.user.providerData[0].displayName || '',
           role: 'user'
         };
-        this.updateUserProfile(data.user, userProfile).subscribe(
+        this.updateUserProfile(data.user, profile).subscribe(
           () => {
             observer.next(true);
             observer.complete();
@@ -112,9 +110,9 @@ export class AuthService {
     });
   }
 
-  updateUserProfile(user: firebase.User, metadata: UserProfile): Observable<boolean> {
+  updateUserProfile(user: firebase.User, profile: User): Observable<boolean> {
     return Observable.create((observer: Observer<boolean>) => {
-      this.afDatabase.object(this.DB_USERS_REF + user.uid).update(metadata).then(() => {
+      this.afDatabase.object(this.DB_USERS_REF + user.uid).update(profile).then(() => {
             observer.next(true);
             observer.complete();
           }).catch((error: any) => {
@@ -123,11 +121,11 @@ export class AuthService {
     });
   }
 
-  getUserProfile(): Observable<UserProfile> {
+  getCurrentUser(): Observable<User> {
     return this.store.select((state) => {
       return state.userProfile.userProfile;
     })
-    .map((profile: UserProfile) => {
+    .map((profile: User) => {
       return profile;
     });
   }
@@ -155,9 +153,11 @@ export class AuthService {
   private setUserAndFetchProfile(user: firebase.User) {
     if (!this.user && user) {
       this.user = user;
-      this.userProfileSubscription = this.afDatabase.object(this.DB_USERS_REF + this.user.uid).subscribe((profile: any) => {
-        this.store.dispatch(new UserProfileActions.SetUserProfile(profile));
-      });
+      this.userProfileSubscription = this.afDatabase.object(this.DB_USERS_REF + this.user.uid).subscribe(
+        (profile: any) => {
+          this.store.dispatch(new UserProfileActions.SetUserProfile(profile));
+        }
+      );
     }
   }
 

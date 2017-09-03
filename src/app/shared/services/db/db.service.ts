@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs/Subscription';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { LocalStorageService } from 'ngx-store';
 
 import * as firebase from 'firebase/app';
 
@@ -14,10 +13,7 @@ export class DbService {
   static readonly DB_USERS_REF = '/users/';
 
 
-  constructor(private afDatabase: AngularFireDatabase,
-              private localStorageService: LocalStorageService) {
-
-  }
+  constructor(private afDatabase: AngularFireDatabase) {}
 
 
   set(pathOrRef: string, uid: string, data: any): Observable<any> {
@@ -48,7 +44,7 @@ export class DbService {
     });
   }
 
-  delete(pathOrRef: string, uid: string): Observable<any[]> {
+  delete(pathOrRef: string, uid: string): Observable<boolean> {
     return Observable.create((observer: Observer<boolean>) => {
       this.afDatabase.object(pathOrRef + uid).remove().then(() => {
         observer.next(true);

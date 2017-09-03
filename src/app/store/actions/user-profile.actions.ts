@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
-import { UserProfile } from 'app/shared/models/user-profile';
+import { User } from 'app/shared/models';
 
 export const SET_USER_PROFILE = '[UserProfile] Set';
 export const CLEAR_USER_PROFILE = '[UserProfile] Clear';
 
 export class SetUserProfile implements Action {
   readonly type = SET_USER_PROFILE;
-  constructor(public payload: UserProfile) {}
+  constructor(public payload: User) {}
 }
 
 export class ClearUserProfile implements Action {

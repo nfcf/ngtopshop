@@ -3,7 +3,7 @@ import { Router, CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot } from
 import { State, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../index';
-import { UserProfile } from '../../models';
+import { User } from '../../models';
 import * as _ from 'lodash';
 import * as RouterActions from 'app/store/actions/router.actions';
 import * as UserProfileActions from 'app/store/actions/user-profile.actions';
@@ -15,8 +15,8 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class RouteGuardService implements CanActivate {
-  private readonly ADMIN_ROUTES = ['products'];
-  private readonly MANAGER_ROUTES = ['products'];
+  private readonly ADMIN_ROUTES = ['products', 'users', 'orders'];
+  private readonly MANAGER_ROUTES = ['products', 'orders'];
   private readonly USER_ROUTES = [];
 
   constructor(private store: Store<fromRoot.State>, private authService: AuthService) {
@@ -30,8 +30,8 @@ export class RouteGuardService implements CanActivate {
           this.store.dispatch(new RouterActions.Go({ path: ['auth/login'] }));
           return Observable.of(false);
         } else {
-          return this.authService.getUserProfile().map(
-            (profile: UserProfile) => {
+          return this.authService.getCurrentUser().map(
+            (profile: User) => {
               const allowedRoutes = this.getAllowedRoutesForRole(profile.role);
               return allowedRoutes.indexOf(route.data.routeKey) >= 0;
             }

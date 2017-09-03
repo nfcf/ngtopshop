@@ -1,10 +1,10 @@
 import { ActionReducer } from '@ngrx/store';
 import * as userProfileActions from '../actions/user-profile.actions';
-import { UserProfile } from 'app/shared/models/user-profile';
+import { User } from 'app/shared/models/user';
 
 
 export interface State {
-  userProfile: UserProfile;
+  userProfile: User;
 }
 
 const intitialState: State = {

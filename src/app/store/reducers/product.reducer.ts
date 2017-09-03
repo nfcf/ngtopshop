@@ -9,7 +9,6 @@ const intitialState: State = [];
 
 
 export function reducer(state = intitialState, action: productActions.Actions) {
-  console.log('Action came in! ' + action.type);
   switch (action.type) {
     case productActions.LIST_RESULT:
       return action.payload;

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { DialogModule, PanelModule, ButtonModule, InputTextModule } from 'primeng/primeng';
+
 import { UsersRoutingModule } from './users-routing.module';
 
 import { UsersComponent } from './pages';
@@ -13,7 +15,12 @@ import { UsersComponent } from './pages';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    UsersRoutingModule
+    UsersRoutingModule,
+
+    DialogModule,
+    PanelModule,
+    ButtonModule,
+    InputTextModule
   ],
   declarations: [
     UsersComponent

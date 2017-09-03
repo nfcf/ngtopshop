@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       const model = this.loginForm.value;
       this.authService.loginWithEmail(model.email, model.password).subscribe(
         (response: any) => {
-          this.authService.getUserProfile().subscribe((profile) => {
+          this.authService.getCurrentUser().subscribe((profile) => {
             const newRoute = profile.role === 'admin' || profile.role === 'manager' ? 'products' : 'home';
             this.store.dispatch(new RouterActions.Go({ path: [newRoute] }));
           });

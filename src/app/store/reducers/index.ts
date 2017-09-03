@@ -19,6 +19,7 @@ import * as fromRouter from '@ngrx/router-store';
 
 import * as fromUserProfile from './user-profile.reducer';
 import * as fromProduct from './product.reducer';
+import * as fromUser from './user.reducer';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -27,6 +28,7 @@ import * as fromProduct from './product.reducer';
 export interface State {
   userProfile: fromUserProfile.State;
   products: fromProduct.State;
+  users: fromUser.State;
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
@@ -38,6 +40,7 @@ export interface State {
 export const reducers: ActionReducerMap<State> = {
   userProfile: fromUserProfile.reducer,
   products: fromProduct.reducer,
+  users: fromUser.reducer,
   routerReducer: fromRouter.routerReducer,
 };
 
@@ -51,7 +54,7 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 }
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
-    keys: ['userProfile', 'products'],
+    keys: ['userProfile', 'products', 'users'],
     rehydrate: true,
     storageKeySerializer: (key) => 'ngrx_' + key })(reducer);
 }
@@ -78,4 +81,10 @@ export const getProductState = createFeatureSelector<fromProduct.State>('product
 export const getProduct = createSelector(
   getProductState,
   fromProduct.getProducts
+);
+
+export const getUserState = createFeatureSelector<fromUser.State>('users');
+export const getUser = createSelector(
+  getUserState,
+  fromUser.getUsers
 );

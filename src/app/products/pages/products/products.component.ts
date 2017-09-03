@@ -2,7 +2,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { State, Store } from '@ngrx/store';
 import { Product } from 'app/shared/models';
-import { ProductsService } from './../../services';
 import { DialogModule } from 'primeng/primeng';
 import * as ProductActions from 'app/store/actions/product.actions';
 import * as fromRoot from 'app/store/reducers';

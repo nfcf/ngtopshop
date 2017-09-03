@@ -9,7 +9,6 @@ import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { LocalStorageService } from 'ngx-store';
 import { JasperoAlertsModule } from '@jaspero/ng2-alerts';
 import { DialogModule, PanelModule } from 'primeng/primeng';
 
@@ -21,10 +20,10 @@ import { PageNotFoundComponent } from './page-not-found.component';
 import { ProductsService } from './products/services';
 
 import { CustomRouterStateSerializer } from './shared/utils';
-import { AuthService, DbService, RouteGuardService } from './shared/services';
+import { AuthService, DbService, RouteGuardService, UserService } from './shared/services';
 
 import { reducers, metaReducers } from './store/reducers';
-import { ProductEffects, RouterEffects } from './store/effects';
+import { ProductEffects, RouterEffects, UserEffects } from './store/effects';
 
 import { environment } from '../environments/environment';
 
@@ -37,7 +36,7 @@ import { environment } from '../environments/environment';
 
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreRouterConnectingModule,
-    EffectsModule.forRoot([ProductEffects, RouterEffects]),
+    EffectsModule.forRoot([ProductEffects, RouterEffects, UserEffects]),
 
     AppRoutingModule,
     AuthenticationModule,
@@ -58,8 +57,8 @@ import { environment } from '../environments/environment';
     AuthService,
     DbService,
     RouteGuardService,
-    LocalStorageService,
     ProductsService,
+    UserService,
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
      * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided

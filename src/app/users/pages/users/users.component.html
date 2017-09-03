@@ -1,3 +1,35 @@
-<p>
-  users works!
-</p>
+<ul class="inline">
+  <p-panel *ngFor="let user of users" class="panel">
+    <p-header>
+      {{user.displayName}}
+    </p-header>
+    <p>{{user.billingAddress}}</p>
+    <p>{{user.shippingAddress}}</p>
+    <small>{{user.role}}</small>
+    <small>{{user.active}}</small>
+    <p-footer>
+      <button pButton type="button" (click)="toggleUserState(user)" [label]="user.active ? 'Disable' : 'Enable'" class="ui-button-danger"></button>
+      <button pButton type="button" (click)="editUser(user)" label="Edit"></button>
+    </p-footer>
+  </p-panel>
+</ul>
+
+<p-dialog [(visible)]="modal.visible">
+  <p-header>
+    Edit User
+  </p-header>
+  <div [formGroup]="formGroup">
+    <label>Display Name</label>
+    <input pInputText name="displayName" formControlName="displayName"/>
+    <label>Billing Address</label>
+    <input pInputText name="billingAddress" formControlName="billingAddress"/>
+    <label>Shipping Address</label>
+    <input pInputText name="shippingAddress" formControlName="shippingAddress"/>
+    <label>Role</label>
+    <input pInputText name="role" formControlName="role"/>
+  </div>
+  <p-footer>
+    <button pButton (click)="cancel()" label="Cancel" class="ui-button-danger"></button>
+    <button pButton (click)="save()" label="Save"></button>
+  </p-footer>
+</p-dialog>

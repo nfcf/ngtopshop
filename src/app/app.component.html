@@ -1,7 +1,9 @@
-<!--The whole content below can be removed with the new code.-->
 <div class="container">
-  <header class="header">
+  <header class="header navbar">
     <h2> NgTopShop</h2>
+    <span class="flex"></span>
+    <a *ngIf="showMenu && 1 == 1" routerLinkActive="active" routerLink="/products">Products</a>
+    <a *ngIf="showMenu && 1 == 1" routerLinkActive="active" routerLink="/users">Users</a>
   </header>
   <div class="main">
     <router-outlet></router-outlet>
