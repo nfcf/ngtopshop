@@ -59,10 +59,10 @@ export class UsersComponent implements OnInit {
   save() {
     const user = <User>{
       $key: this.formGroup.controls.$key.value,
-      displayName: this.formGroup.controls.displayName.value,
-      billingAddress: this.formGroup.controls.billingAddress.value,
-      shippingAddress: this.formGroup.controls.shippingAddress.value,
-      role: this.formGroup.controls.role.value
+      displayName: this.formGroup.controls.displayName.value || '',
+      billingAddress: this.formGroup.controls.billingAddress.value || '',
+      shippingAddress: this.formGroup.controls.shippingAddress.value || '',
+      role: this.formGroup.controls.role.value || 'user'
     }
     this.store.dispatch(new UserActions.Update(user));
 
