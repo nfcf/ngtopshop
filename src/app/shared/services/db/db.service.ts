@@ -11,6 +11,7 @@ import * as firebase from 'firebase/app';
 export class DbService {
   static readonly DB_PRODUCTS_REF = '/products/';
   static readonly DB_USERS_REF = '/users/';
+  static readonly DB_ORDERS_REF = '/orders/';
 
 
   constructor(private afDatabase: AngularFireDatabase) {}

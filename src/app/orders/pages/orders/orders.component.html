@@ -1,0 +1,33 @@
+<!--<button pButton (click)="newProduct()" label="New Product"></button>
+<br>
+<ul class="inline">
+  <p-panel *ngFor="let product of products" class="panel">
+    <p-header>
+      {{product.name}}
+    </p-header>
+    <p>{{product.description}}</p>
+    <small>{{product.price}}</small>
+    <p-footer>
+      <button pButton type="button" (click)="deleteProduct(product)" label="Delete" class="ui-button-danger"></button>
+      <button pButton type="button" (click)="editProduct(product)" label="Edit"></button>
+    </p-footer>
+  </p-panel>
+</ul>
+
+<p-dialog [(visible)]="modal.visible">
+  <p-header>
+    {{modal.type === 'new' ? 'New Product' : 'Edit Product'}}
+  </p-header>
+  <div [formGroup]="formGroup">
+    <label>Name</label>
+    <input pInputText name="name" formControlName="name"/>
+    <label>Description</label>
+    <input pInputText name="decription" formControlName="description"/>
+    <label>Price</label>
+    <input pInputText name="price" type="number" formControlName="price"/>
+  </div>
+  <p-footer>
+    <button pButton (click)="cancel()" label="Cancel" class="ui-button-danger"></button>
+    <button pButton (click)="save()" label="Save"></button>
+  </p-footer>
+</p-dialog>-->
