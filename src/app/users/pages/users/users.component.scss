@@ -3,11 +3,13 @@
 }
 
 .panel {
-  min-width: 128px;
+  min-width: 196px;
   margin-right: 16px;
 }
 
-input {
+input,
+p-dropdown {
   display: block;
   margin-bottom: 16px;
 }
+

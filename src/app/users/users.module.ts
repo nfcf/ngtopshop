@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { DialogModule, PanelModule, ButtonModule, InputTextModule } from 'primeng/primeng';
+import { DialogModule, PanelModule, ButtonModule, InputTextModule, DropdownModule } from 'primeng/primeng';
 
 import { UsersRoutingModule } from './users-routing.module';
 
@@ -20,7 +20,8 @@ import { UsersComponent } from './pages';
     DialogModule,
     PanelModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    DropdownModule
   ],
   declarations: [
     UsersComponent

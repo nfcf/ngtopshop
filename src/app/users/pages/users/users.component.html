@@ -21,12 +21,12 @@
   <div [formGroup]="formGroup">
     <label>Display Name</label>
     <input pInputText name="displayName" formControlName="displayName"/>
+    <label>Role</label>
+    <p-dropdown [options]="roles" [autoWidth]="false" formControlName="role"></p-dropdown>
     <label>Billing Address</label>
     <input pInputText name="billingAddress" formControlName="billingAddress"/>
     <label>Shipping Address</label>
     <input pInputText name="shippingAddress" formControlName="shippingAddress"/>
-    <label>Role</label>
-    <input pInputText name="role" formControlName="role"/>
   </div>
   <p-footer>
     <button pButton (click)="cancel()" label="Cancel" class="ui-button-danger"></button>

@@ -2,7 +2,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { State, Store } from '@ngrx/store';
 import { User } from 'app/shared/models';
-import { DialogModule } from 'primeng/primeng';
+import { DialogModule, SelectItem } from 'primeng/primeng';
 import * as UserActions from 'app/store/actions/user.actions';
 import * as fromRoot from 'app/store/reducers';
 
@@ -13,6 +13,11 @@ import * as fromRoot from 'app/store/reducers';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
+  roles: SelectItem[] = [
+    { label: 'User', value: 'user' },
+    { label: 'Manager', value: 'manager' },
+    { label: 'Administrator', value: 'admin' }
+  ];
 
   users: User[];
 
@@ -30,7 +35,7 @@ export class UsersComponent implements OnInit {
         displayName: [ null, Validators.required ],
         billingAddress: [ null, Validators.required ],
         shippingAddress: [ null, Validators.required ],
-        role: [ null, Validators.required ],
+        role: [ 'user', Validators.required ],
       });
   }
 
