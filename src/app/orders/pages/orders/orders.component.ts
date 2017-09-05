@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { State, Store } from '@ngrx/store';
-import { Order, User, OrderItem } from 'app/shared/models';
+import { Order, User, OrderItem, Product } from 'app/shared/models';
 import { DialogModule } from 'primeng/primeng';
 import * as OrderActions from 'app/store/actions/order.actions';
 import * as fromRoot from 'app/store/reducers';
@@ -16,6 +16,7 @@ import { AuthService } from 'app/shared/services';
 export class OrdersComponent implements OnInit {
 
   orders: Order[];
+  products: Product[];
 
   formGroup: FormGroup;
 
@@ -32,6 +33,11 @@ export class OrdersComponent implements OnInit {
     .subscribe((items: Order[]) => {
       this.orders = items;
     });
+
+    this.store.select('products')
+    .subscribe((items: Product[]) => {
+      this.products = items;
+    });
   }
 
   newOrder() {
@@ -44,6 +50,9 @@ export class OrdersComponent implements OnInit {
           status: 'new',
           items: this.generateOrderItems()
         };
+        order.items.forEach((item: OrderItem) => {
+          order.totalPrice += item.quantity * item.price;
+        });
         this.store.dispatch(new OrderActions.New(order));
       }
     );
@@ -83,7 +92,17 @@ export class OrdersComponent implements OnInit {
   }
 
   private generateOrderItems(): OrderItem[] {
-    return [];
+    const iterations = Math.round(Math.random() * 3);
+    const result = [];
+    for (let i = 0; i <= iterations; i ++) {
+      const product = this.products[Math.round(Math.random() * this.products.length - 1)];
+      result.push(<OrderItem>{
+        productId: product.$key,
+        quantity: Math.round(Math.random() * 3),
+        price: product.price
+      });
+    }
+    return result;
   }
 
 }

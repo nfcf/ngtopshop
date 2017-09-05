@@ -6,7 +6,7 @@
       ID: {{order.$key}}
     </p-header>
     <p>Items: {{order.items ? order.items.length : 0}}</p>
-    <p><small>Status: {{order.status}}</small></p>
+    <p>Status: {{order.status}}</p>
     <p><small>Date: {{order.createdAtUtc}}</small></p>
     <p-footer>
       <button pButton type="button" (click)="deleteOrder(order)" label="Delete" class="ui-button-danger"></button>
@@ -14,3 +14,17 @@
     </p-footer>
   </p-panel>
 </ul>
+
+<p-dialog [(visible)]="modal.visible">
+    <p-header>
+      Edit Order
+    </p-header>
+    <div [formGroup]="formGroup">
+      <label>Status</label>
+      <p-dropdown [options]="roles" [autoWidth]="false" formControlName="role"></p-dropdown>
+    </div>
+    <p-footer>
+      <button pButton (click)="cancel()" label="Cancel" class="ui-button-danger"></button>
+      <button pButton (click)="save()" label="Save"></button>
+    </p-footer>
+  </p-dialog>

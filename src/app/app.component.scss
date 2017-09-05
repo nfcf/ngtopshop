@@ -24,9 +24,12 @@
 }
 
 .navbar {
-  background-color: lightblue;
+  background-color: #386E9D;
+  color: white;
   display: inline-flex;
+  padding: 0 8px;
   a {
+    color: white;
     line-height: 64px;
     margin-right: 16px;
   }

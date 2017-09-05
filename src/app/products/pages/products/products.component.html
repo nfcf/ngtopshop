@@ -6,7 +6,7 @@
       {{product.name}}
     </p-header>
     <p>{{product.description}}</p>
-    <small>{{product.price}}</small>
+    <p><b>Price:</b> {{product.price}}€</p>
     <p-footer>
       <button pButton type="button" (click)="deleteProduct(product)" label="Delete" class="ui-button-danger"></button>
       <button pButton type="button" (click)="editProduct(product)" label="Edit"></button>
