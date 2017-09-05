@@ -1,5 +1,6 @@
+import { Subscription } from 'rxjs/Subscription';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { State, Store } from '@ngrx/store';
 import { Product } from 'app/shared/models';
 import { DialogModule } from 'primeng/primeng';
@@ -12,7 +13,7 @@ import * as fromRoot from 'app/store/reducers';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
 
   products: Product[];
 
@@ -22,6 +23,8 @@ export class ProductsComponent implements OnInit {
     visible: false,
     type: 'new'
   }
+
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private store: Store<fromRoot.State>,
@@ -36,10 +39,20 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new ProductActions.ListRequest());
-    this.store.select('products')
-    .subscribe((products: Product[]) => {
-      this.products = products;
+
+    this.subscriptions.push(
+      this.store.select('products')
+      .subscribe((items: Product[]) => {
+        this.products = items;
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
     });
+    this.subscriptions.length = 0;
   }
 
   newProduct() {

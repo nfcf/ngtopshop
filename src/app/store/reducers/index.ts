@@ -57,7 +57,7 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 }
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
-    keys: ['userProfile', 'products', 'users'],
+    keys: ['userProfile', 'products', 'users', 'orders'],
     rehydrate: true,
     storageKeySerializer: (key) => 'ngrx_' + key })(reducer);
 }

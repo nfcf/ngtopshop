@@ -38,7 +38,6 @@ export class ProductService {
   }
 
   delete(data: Product): Observable<boolean> {
-    data = JSON.parse(JSON.stringify(data));
     data.active = false;
     return this.update(data);
   }

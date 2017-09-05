@@ -1,5 +1,6 @@
+import { Subscription } from 'rxjs/Subscription';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { State, Store } from '@ngrx/store';
 import { User } from 'app/shared/models';
 import { DialogModule, SelectItem } from 'primeng/primeng';
@@ -12,7 +13,7 @@ import * as fromRoot from 'app/store/reducers';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   roles: SelectItem[] = [
     { label: 'User', value: 'user' },
     { label: 'Manager', value: 'manager' },
@@ -26,6 +27,8 @@ export class UsersComponent implements OnInit {
   modal: any = {
     visible: false
   }
+
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private store: Store<fromRoot.State>,
@@ -41,10 +44,20 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new UserActions.ListRequest());
-    this.store.select('users')
-    .subscribe((users: User[]) => {
-      this.users = users;
+
+    this.subscriptions.push(
+      this.store.select('users')
+      .subscribe((items: User[]) => {
+        this.users = items;
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
     });
+    this.subscriptions.length = 0;
   }
 
   editUser(user: User) {

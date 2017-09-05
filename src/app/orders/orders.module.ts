@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { DialogModule, PanelModule, ButtonModule, InputTextModule } from 'primeng/primeng';
+import { DialogModule, PanelModule, ButtonModule, InputTextModule, DropdownModule } from 'primeng/primeng';
 
 import { OrdersRoutingModule } from './orders-routing.module';
 
@@ -21,7 +21,8 @@ import { OrderService } from './services';
     DialogModule,
     PanelModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    DropdownModule
   ],
   declarations: [
     OrdersComponent
