@@ -17,13 +17,14 @@ import { AuthenticationModule } from './authentication/authentication.module';
 
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found.component';
-import { ProductsService } from './products/services';
+import { ProductService } from './products/services';
+import { OrderService } from './orders/services';
 
 import { CustomRouterStateSerializer } from './shared/utils';
 import { AuthService, DbService, RouteGuardService, UserService } from './shared/services';
 
 import { reducers, metaReducers } from './store/reducers';
-import { ProductEffects, RouterEffects, UserEffects } from './store/effects';
+import { OrderEffects, ProductEffects, RouterEffects, UserEffects } from './store/effects';
 
 import { environment } from '../environments/environment';
 
@@ -36,7 +37,7 @@ import { environment } from '../environments/environment';
 
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreRouterConnectingModule,
-    EffectsModule.forRoot([ProductEffects, RouterEffects, UserEffects]),
+    EffectsModule.forRoot([OrderEffects, ProductEffects, RouterEffects, UserEffects]),
 
     AppRoutingModule,
     AuthenticationModule,
@@ -57,7 +58,8 @@ import { environment } from '../environments/environment';
     AuthService,
     DbService,
     RouteGuardService,
-    ProductsService,
+    OrderService,
+    ProductService,
     UserService,
     /**
      * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.

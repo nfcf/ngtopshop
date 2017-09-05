@@ -21,11 +21,13 @@ export class UserService {
 
   update(data: User): Observable<boolean> {
     const uid = data.$key
+    data = JSON.parse(JSON.stringify(data));
     delete data.$key;
     return this.dbService.update(DbService.DB_USERS_REF, uid, data);
   }
 
   delete(data: User): Observable<boolean> {
+    data = JSON.parse(JSON.stringify(data));
     data.active = false;
     return this.update(data);
   }

@@ -5,8 +5,8 @@
     </p-header>
     <p>{{user.billingAddress}}</p>
     <p>{{user.shippingAddress}}</p>
-    <small>{{user.role}}</small>
-    <small>{{user.active}}</small>
+    <p><small>Role: {{user.role}}</small></p>
+    <p><small>Active: {{user.active}}</small></p>
     <p-footer>
       <button pButton type="button" (click)="toggleUserState(user)" [label]="user.active ? 'Disable' : 'Enable'" class="ui-button-danger"></button>
       <button pButton type="button" (click)="editUser(user)" label="Edit"></button>

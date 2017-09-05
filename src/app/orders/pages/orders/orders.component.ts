@@ -1,10 +1,11 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { State, Store } from '@ngrx/store';
-import { Order } from 'app/shared/models';
+import { Order, User, OrderItem } from 'app/shared/models';
 import { DialogModule } from 'primeng/primeng';
-import * as ProductActions from 'app/store/actions/product.actions';
+import * as OrderActions from 'app/store/actions/order.actions';
 import * as fromRoot from 'app/store/reducers';
+import { AuthService } from 'app/shared/services';
 
 
 @Component({
@@ -18,70 +19,71 @@ export class OrdersComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  modal: any = {
-    visible: false,
-    type: 'new'
-  }
-
   constructor(
+    private authService: AuthService,
     private store: Store<fromRoot.State>,
     private formBuilder: FormBuilder) {
-      this.formGroup = formBuilder.group({
-        $key: [ null ],
-        name: [ null, Validators.required ],
-        description: [ null, Validators.required ],
-        price: [ null, Validators.required ],
-      });
+
   }
 
   ngOnInit() {
-    this.store.dispatch(new ProductActions.ListRequest());
-    /*this.store.select('orders')
+    this.store.dispatch(new OrderActions.ListRequest());
+    this.store.select('orders')
     .subscribe((items: Order[]) => {
       this.orders = items;
-    });*/
-  }
-/*
-  newProduct() {
-    this.modal.type = 'new';
-    this.formGroup.controls.$key.setValue(undefined);
-    this.formGroup.controls.name.setValue(undefined);
-    this.formGroup.controls.description.setValue(undefined);
-    this.formGroup.controls.price.setValue(undefined);
-    this.modal.visible = true;
+    });
   }
 
-  editProduct(product: Product) {
-    this.modal.type = 'edit';
-    this.formGroup.controls.$key.setValue(product.$key);
-    this.formGroup.controls.name.setValue(product.name);
-    this.formGroup.controls.description.setValue(product.description);
-    this.formGroup.controls.price.setValue(product.price);
-    this.modal.visible = true;
+  newOrder() {
+    this.authService.getCurrentUser().subscribe(
+      (user: User) => {
+        const order = <Order>{
+          userId: user.id,
+          active: true,
+          createdAtUtc: new Date().toISOString(),
+          status: 'new',
+          items: this.generateOrderItems()
+        };
+        this.store.dispatch(new OrderActions.New(order));
+      }
+    );
   }
 
-  deleteProduct(product: Product) {
-    this.store.dispatch(new ProductActions.Delete(product));
+  editOrder(item: Order) {
+    // this.modal.type = 'edit';
+    // this.formGroup.controls.$key.setValue(item.$key);
+    // this.formGroup.controls.name.setValue(item.name);
+    // this.formGroup.controls.description.setValue(item.description);
+    // this.formGroup.controls.price.setValue(item.price);
+    // this.modal.visible = true;
+  }
+
+  deleteProduct(item: Order) {
+    this.store.dispatch(new OrderActions.Delete(item));
   }
 
   save() {
-    const product = <Product>{
+    const item = <Order>{
       $key: this.formGroup.controls.$key.value,
-      name: this.formGroup.controls.name.value,
-      description: this.formGroup.controls.description.value,
-      price: this.formGroup.controls.price.value
+      // name: this.formGroup.controls.name.value,
+      // description: this.formGroup.controls.description.value,
+      // price: this.formGroup.controls.price.value
     }
-    if (this.modal.type === 'new') {
-      this.store.dispatch(new ProductActions.New(product));
+    /*if (this.modal.type === 'new') {
+      this.store.dispatch(new OrderActions.New(item));
     } else {
-      this.store.dispatch(new ProductActions.Update(product));
+      this.store.dispatch(new OrderActions.Update(item));
     }
 
-    this.modal.visible = false;
+    this.modal.visible = false;*/
   }
 
   cancel() {
-    this.modal.visible = false;
-  }*/
+    // this.modal.visible = false;
+  }
+
+  private generateOrderItems(): OrderItem[] {
+    return [];
+  }
 
 }

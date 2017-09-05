@@ -20,6 +20,7 @@ import * as fromRouter from '@ngrx/router-store';
 import * as fromUserProfile from './user-profile.reducer';
 import * as fromProduct from './product.reducer';
 import * as fromUser from './user.reducer';
+import * as fromOrder from './order.reducer';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -29,6 +30,7 @@ export interface State {
   userProfile: fromUserProfile.State;
   products: fromProduct.State;
   users: fromUser.State;
+  orders: fromOrder.State;
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
@@ -41,6 +43,7 @@ export const reducers: ActionReducerMap<State> = {
   userProfile: fromUserProfile.reducer,
   products: fromProduct.reducer,
   users: fromUser.reducer,
+  orders: fromOrder.reducer,
   routerReducer: fromRouter.routerReducer,
 };
 
@@ -87,4 +90,10 @@ export const getUserState = createFeatureSelector<fromUser.State>('users');
 export const getUser = createSelector(
   getUserState,
   fromUser.getUsers
+);
+
+export const getOrderState = createFeatureSelector<fromOrder.State>('orders');
+export const getOrder = createSelector(
+  getOrderState,
+  fromOrder.getOrders
 );

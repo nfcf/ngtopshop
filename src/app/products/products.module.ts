@@ -8,7 +8,7 @@ import { DialogModule, PanelModule, ButtonModule, InputTextModule } from 'primen
 import { ProductsRoutingModule } from './products-routing.module';
 
 import { ProductsComponent } from './pages';
-import { ProductsService } from './services';
+import { ProductService } from './services';
 
 
 @NgModule({
@@ -27,7 +27,7 @@ import { ProductsService } from './services';
     ProductsComponent
   ],
   providers: [
-    ProductsService
+    ProductService
   ]
 })
 export class ProductsModule { }

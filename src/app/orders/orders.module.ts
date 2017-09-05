@@ -8,7 +8,7 @@ import { DialogModule, PanelModule, ButtonModule, InputTextModule } from 'primen
 import { OrdersRoutingModule } from './orders-routing.module';
 
 import { OrdersComponent } from './pages';
-import { OrdersService } from './services';
+import { OrderService } from './services';
 
 
 @NgModule({
@@ -27,7 +27,7 @@ import { OrdersService } from './services';
     OrdersComponent
   ],
   providers: [
-    OrdersService
+    OrderService
   ]
 })
 export class OrdersModule { }

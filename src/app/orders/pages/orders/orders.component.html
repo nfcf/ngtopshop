@@ -1,33 +1,16 @@
-<!--<button pButton (click)="newProduct()" label="New Product"></button>
+<button pButton (click)="newOrder()" label="New Order"></button>
 <br>
 <ul class="inline">
-  <p-panel *ngFor="let product of products" class="panel">
+  <p-panel *ngFor="let order of orders" class="panel">
     <p-header>
-      {{product.name}}
+      ID: {{order.$key}}
     </p-header>
-    <p>{{product.description}}</p>
-    <small>{{product.price}}</small>
+    <p>Items: {{order.items ? order.items.length : 0}}</p>
+    <p><small>Status: {{order.status}}</small></p>
+    <p><small>Date: {{order.createdAtUtc}}</small></p>
     <p-footer>
-      <button pButton type="button" (click)="deleteProduct(product)" label="Delete" class="ui-button-danger"></button>
-      <button pButton type="button" (click)="editProduct(product)" label="Edit"></button>
+      <button pButton type="button" (click)="deleteOrder(order)" label="Delete" class="ui-button-danger"></button>
+      <button pButton type="button" (click)="editOrder(order)" label="Edit"></button>
     </p-footer>
   </p-panel>
 </ul>
-
-<p-dialog [(visible)]="modal.visible">
-  <p-header>
-    {{modal.type === 'new' ? 'New Product' : 'Edit Product'}}
-  </p-header>
-  <div [formGroup]="formGroup">
-    <label>Name</label>
-    <input pInputText name="name" formControlName="name"/>
-    <label>Description</label>
-    <input pInputText name="decription" formControlName="description"/>
-    <label>Price</label>
-    <input pInputText name="price" type="number" formControlName="price"/>
-  </div>
-  <p-footer>
-    <button pButton (click)="cancel()" label="Cancel" class="ui-button-danger"></button>
-    <button pButton (click)="save()" label="Save"></button>
-  </p-footer>
-</p-dialog>-->

@@ -5,7 +5,7 @@ export class Order {
   $key?: string;
   userId: string;
   items: OrderItem[];
-  createdAtUtc: Date;
+  createdAtUtc: string;
   status: 'new' | 'dispatched';
   active: boolean;
 }

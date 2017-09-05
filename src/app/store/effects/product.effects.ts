@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Effect, Actions } from '@ngrx/effects';
 import * as ProductActions from 'app/store/actions/product.actions';
-import { ProductsService } from './../../products/services';
+import { ProductService } from './../../products/services';
 import { Product } from 'app/shared/models';
 
 import 'rxjs/add/operator/switchMap';
@@ -41,6 +41,6 @@ export class ProductEffects {
 
   constructor(
     private actions$: Actions,
-    private productService: ProductsService
+    private productService: ProductService
   ) { }
 }

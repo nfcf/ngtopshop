@@ -155,6 +155,7 @@ export class AuthService {
       this.user = user;
       this.userProfileSubscription = this.afDatabase.object(this.DB_USERS_REF + this.user.uid).subscribe(
         (profile: any) => {
+          profile.id = profile.$key;
           this.store.dispatch(new UserProfileActions.SetUserProfile(profile));
         }
       );
