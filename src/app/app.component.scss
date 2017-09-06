@@ -25,13 +25,16 @@
 
 .navbar {
   background-color: #386E9D;
-  color: white;
+  color: #70B0E0;
   display: inline-flex;
   padding: 0 8px;
   a {
-    color: white;
+    color: #70B0E0;
     line-height: 64px;
     margin-right: 16px;
+    &.active {
+      color: white;
+    }
   }
 }
 

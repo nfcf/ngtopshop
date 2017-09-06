@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ReCaptchaModule } from 'angular2-recaptcha';
 
+import { DialogModule, PanelModule, ButtonModule, InputTextModule } from 'primeng/primeng';
+
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 
 import { JasperoAlertsModule } from '@jaspero/ng2-alerts';
@@ -19,7 +21,12 @@ import { LoginComponent, RegisterComponent } from './pages';
     AuthenticationRoutingModule,
 
     JasperoAlertsModule,
-    ReCaptchaModule
+    ReCaptchaModule,
+
+    DialogModule,
+    PanelModule,
+    ButtonModule,
+    InputTextModule
   ],
   declarations: [
     LoginComponent,

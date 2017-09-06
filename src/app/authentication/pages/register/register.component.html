@@ -1,22 +1,27 @@
 <form class="register-form" [formGroup]="registerForm" (ngSubmit)="register()">
     <div class="field">
         <label>Display Name</label>
-        <input type="text" formControlName="name">
+        <input pInputText type="text" formControlName="name">
       </div>
     <div class="field">
       <label>Email</label>
-      <input type="email" formControlName="email">
+      <input pInputText type="email" formControlName="email">
     </div>
     <div class="field">
       <label>Password</label>
-      <input type="password" formControlName="password">
+      <input pInputText type="password" formControlName="password">
     </div>
+    <br>
     <re-captcha site_key="6LceURgUAAAAAA3NcaB99elUN40ogMnDAPjqBaN0"></re-captcha>
-    <button class="button" type="submit" [disabled]="!registerForm.valid" [ngClass]="{'disabled-button': !registerForm.valid }">Register</button>
+    <br>
+    <div class="ta-center">
+      <button pButton type="submit" [disabled]="!registerForm.valid" [ngClass]="{'disabled-button': !registerForm.valid }" label="Register"></button>
+    </div>
   </form>
-  <div class="register">
-    <span>Already registered?</span>
-    <a (click)="login()">Go to login</a>
+  <br>
+  <div>
+    <small>Already registered?</small>
+    <a (click)="login()"><small>Go to login</small></a>
   </div>
 
   <jaspero-alerts [defaultSettings]="{ duration: 0 }"></jaspero-alerts>

@@ -1,15 +1,16 @@
 <div class="container">
   <header class="header navbar">
-    <h2> NgTopShop</h2>
+    <h2>NgTopShop</h2>
     <span class="flex"></span>
-    <a *ngIf="showMenu && 1 == 1" routerLinkActive="active" routerLink="/products">Products</a>
-    <a *ngIf="showMenu && 1 == 1" routerLinkActive="active" routerLink="/users">Users</a>
-    <a *ngIf="showMenu && 1 == 1" routerLinkActive="active" routerLink="/orders">Orders</a>
+    <a *ngIf="showMenu && currentUser?.role !== 'user'" routerLinkActive="active" routerLink="/products">Products</a>
+    <a *ngIf="showMenu && currentUser?.role === 'admin'" routerLinkActive="active" routerLink="/users">Users</a>
+    <a *ngIf="showMenu" routerLinkActive="active" routerLink="/orders">Orders</a>
+    <a *ngIf="showMenu" href="javascript:;" (click)="logout()">Logout</a>
   </header>
   <div class="main">
     <router-outlet></router-outlet>
   </div>
   <footer class="footer">
-    Footer
+    what an awesome footer...
   </footer>
 </div>

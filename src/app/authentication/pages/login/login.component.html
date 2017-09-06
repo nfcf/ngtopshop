@@ -1,21 +1,25 @@
 <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
   <div class="field">
     <label>Email</label>
-    <input type="email" formControlName="email">
+    <input pInputText type="email" formControlName="email">
   </div>
   <div class="field">
     <label>Password</label>
-    <input type="password" formControlName="password">
+    <input pInputText type="password" formControlName="password">
   </div>
-  <button class="button" type="submit" [disabled]="!loginForm.valid" [ngClass]="{'disabled-button': !loginForm.valid }">Login in</button>
+  <br>
+  <div class="ta-center">
+    <button pButton type="submit" [disabled]="!loginForm.valid" [ngClass]="{'disabled-button': !loginForm.valid }" label="Log In"></button>
+  </div>
 </form>
-<div class="register">
-  <span>Not registered yet?</span>
-  <a (click)="register()">Sign up here</a>
+<br>
+<div>
+  <small>Not registered yet?</small>
+  <a (click)="register()"><small>Sign up here</small></a>
 </div>
-<div class="forgot-password">
-  <span>Forgot your password?</span>
-  <a (click)="resetPassword()">Reset it here</a>
+<div>
+  <small>Forgot your password?</small>
+  <a (click)="resetPassword()"><small>Reset it here</small></a>
 </div>
 
 <jaspero-alerts [defaultSettings]="{ duration: 0 }"></jaspero-alerts>

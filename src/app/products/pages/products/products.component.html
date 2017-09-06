@@ -1,7 +1,7 @@
 <div class="container">
   <button pButton (click)="newProduct()" label="New Product"></button>
   <br>
-  <ul class="inline">
+  <ul class="flex-container wrap">
     <p-panel *ngFor="let product of products" class="panel">
       <p-header>
         {{product.name}}
@@ -9,7 +9,8 @@
       <p>{{product.description}}</p>
       <p><b>Price:</b> {{product.price}}€</p>
       <p-footer>
-        <button pButton type="button" (click)="deleteProduct(product)" label="Delete" class="ui-button-danger"></button>
+        <button *ngIf="currentUser.role === 'admin'" 
+                pButton type="button" (click)="deleteProduct(product)" label="Delete" class="ui-button-danger"></button>
         <button pButton type="button" (click)="editProduct(product)" label="Edit"></button>
       </p-footer>
     </p-panel>
