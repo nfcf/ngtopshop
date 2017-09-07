@@ -5,9 +5,9 @@ import { State, Store } from '@ngrx/store';
 import { Order, User, OrderItem, Product } from 'app/shared/models';
 import { DialogModule, SelectItem } from 'primeng/primeng';
 import { AuthService } from 'app/shared/services';
-import * as OrderActions from 'app/store/actions/order.actions';
-import * as ProductActions from 'app/store/actions/product.actions';
-import * as fromRoot from 'app/store/reducers';
+import * as OrderActions from 'app/state/actions/order.actions';
+import * as ProductActions from 'app/state/actions/product.actions';
+import * as fromRoot from 'app/state/reducers';
 import 'rxjs/add/operator/first';
 
 @Component({

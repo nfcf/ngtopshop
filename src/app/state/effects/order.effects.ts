@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Effect, Actions } from '@ngrx/effects';
-import * as OrderActions from 'app/store/actions/order.actions';
+import * as OrderActions from 'app/state/actions/order.actions';
 import { OrderService } from './../../orders/services';
 import { Order } from 'app/shared/models';
 

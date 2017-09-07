@@ -23,8 +23,8 @@ import { OrderService } from './orders/services';
 import { CustomRouterStateSerializer } from './shared/utils';
 import { AuthService, DbService, RouteGuardService, UserService } from './shared/services';
 
-import { reducers, metaReducers } from './store/reducers';
-import { OrderEffects, ProductEffects, RouterEffects, UserEffects } from './store/effects';
+import { reducers, metaReducers } from './state/reducers';
+import { OrderEffects, ProductEffects, RouterEffects, UserEffects } from './state/effects';
 
 import { environment } from '../environments/environment';
 

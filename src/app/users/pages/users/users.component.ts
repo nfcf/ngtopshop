@@ -4,8 +4,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { State, Store } from '@ngrx/store';
 import { User } from 'app/shared/models';
 import { DialogModule, SelectItem } from 'primeng/primeng';
-import * as UserActions from 'app/store/actions/user.actions';
-import * as fromRoot from 'app/store/reducers';
+import * as UserActions from 'app/state/actions/user.actions';
+import * as fromRoot from 'app/state/reducers';
 
 
 @Component({

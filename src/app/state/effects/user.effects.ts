@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Effect, Actions } from '@ngrx/effects';
-import * as UserActions from 'app/store/actions/user.actions';
+import * as UserActions from 'app/state/actions/user.actions';
 import { UserService } from 'app/shared/services';
 import { User } from 'app/shared/models';
 

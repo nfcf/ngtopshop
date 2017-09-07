@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { State, Store } from '@ngrx/store';
 import { AlertsService } from '@jaspero/ng2-alerts';
 import { AuthService } from './../../../shared/services';
-import * as RouterActions from 'app/store/actions/router.actions';
-import * as fromRoot from 'app/store/reducers';
+import * as RouterActions from 'app/state/actions/router.actions';
+import * as fromRoot from 'app/state/reducers';
 
 
 

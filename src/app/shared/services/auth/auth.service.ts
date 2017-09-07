@@ -8,9 +8,9 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { User } from '../../models';
 
-import * as RouterActions from 'app/store/actions/router.actions';
-import * as SessionActions from 'app/store/actions/session.actions';
-import * as fromRoot from 'app/store/reducers';
+import * as RouterActions from 'app/state/actions/router.actions';
+import * as SessionActions from 'app/state/actions/session.actions';
+import * as fromRoot from 'app/state/reducers';
 
 import * as firebase from 'firebase/app';
 

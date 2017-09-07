@@ -5,9 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../index';
 import { User } from '../../models';
 import * as _ from 'lodash';
-import * as RouterActions from 'app/store/actions/router.actions';
-import * as SessionActions from 'app/store/actions/session.actions';
-import * as fromRoot from 'app/store/reducers';
+import * as RouterActions from 'app/state/actions/router.actions';
+import * as SessionActions from 'app/state/actions/session.actions';
+import * as fromRoot from 'app/state/reducers';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
