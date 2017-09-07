@@ -17,20 +17,22 @@ import * as fromRouter from '@ngrx/router-store';
  * notation packages up all of the exports into a single object.
  */
 
-import * as fromUserProfile from './user-profile.reducer';
+import * as fromSession from './session.reducer';
 import * as fromProduct from './product.reducer';
 import * as fromUser from './user.reducer';
 import * as fromOrder from './order.reducer';
+import * as fromCart from './cart.reducer';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface State {
-  userProfile: fromUserProfile.State;
+  session: fromSession.State;
   products: fromProduct.State;
   users: fromUser.State;
   orders: fromOrder.State;
+  cart: fromCart.State;
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
@@ -40,10 +42,11 @@ export interface State {
  * and the current or initial state and return a new immutable state.
  */
 export const reducers: ActionReducerMap<State> = {
-  userProfile: fromUserProfile.reducer,
+  session: fromSession.reducer,
   products: fromProduct.reducer,
   users: fromUser.reducer,
   orders: fromOrder.reducer,
+  cart: fromCart.reducer,
   routerReducer: fromRouter.routerReducer,
 };
 
@@ -57,7 +60,7 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 }
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
-    keys: ['userProfile', 'products', 'users', 'orders'],
+    keys: ['session', 'products', 'users', 'orders', 'cart'],
     rehydrate: true,
     storageKeySerializer: (key) => 'ngrx_' + key })(reducer);
 }
@@ -72,12 +75,12 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
   : [localStorageSyncReducer];
 
 /**
- * UserProfile Reducers
+ * Reducers
  */
-export const getUserProfileState = createFeatureSelector<fromUserProfile.State>('userProfile');
-export const getUserProfile = createSelector(
-  getUserProfileState,
-  fromUserProfile.getUserProfile
+export const getSessionState = createFeatureSelector<fromSession.State>('session');
+export const getSession = createSelector(
+  getSessionState,
+  fromSession.getSession
 );
 
 export const getProductState = createFeatureSelector<fromProduct.State>('products');
@@ -96,4 +99,10 @@ export const getOrderState = createFeatureSelector<fromOrder.State>('orders');
 export const getOrder = createSelector(
   getOrderState,
   fromOrder.getOrders
+);
+
+export const getCartState = createFeatureSelector<fromCart.State>('cart');
+export const getCart = createSelector(
+  getCartState,
+  fromCart.getCart
 );

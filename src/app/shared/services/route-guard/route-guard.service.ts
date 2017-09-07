@@ -6,7 +6,7 @@ import { AuthService } from '../index';
 import { User } from '../../models';
 import * as _ from 'lodash';
 import * as RouterActions from 'app/store/actions/router.actions';
-import * as UserProfileActions from 'app/store/actions/user-profile.actions';
+import * as SessionActions from 'app/store/actions/session.actions';
 import * as fromRoot from 'app/store/reducers';
 
 import 'rxjs/add/operator/map';

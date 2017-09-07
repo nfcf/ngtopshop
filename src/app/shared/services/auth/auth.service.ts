@@ -9,7 +9,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { User } from '../../models';
 
 import * as RouterActions from 'app/store/actions/router.actions';
-import * as UserProfileActions from 'app/store/actions/user-profile.actions';
+import * as SessionActions from 'app/store/actions/session.actions';
 import * as fromRoot from 'app/store/reducers';
 
 import * as firebase from 'firebase/app';
@@ -123,7 +123,7 @@ export class AuthService {
 
   getCurrentUser(): Observable<User> {
     return this.store.select((state) => {
-      return state.userProfile.userProfile;
+      return state.session.user;
     })
     .map((profile: User) => {
       return profile;
@@ -156,7 +156,7 @@ export class AuthService {
       this.userProfileSubscription = this.afDatabase.object(this.DB_USERS_REF + this.user.uid).subscribe(
         (profile: any) => {
           profile.id = profile.$key;
-          this.store.dispatch(new UserProfileActions.SetUserProfile(profile));
+          this.store.dispatch(new SessionActions.SetSession(profile));
         }
       );
     }
