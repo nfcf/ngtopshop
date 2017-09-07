@@ -119,7 +119,7 @@ export class ShopComponent implements OnInit, OnDestroy {
       key: 'pk_test_es8mju5aGwxTaVp1qJhBD6cE',
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
       locale: 'auto',
-      email: 'nfcf@ist.utl.pt', // this.currentUser.email,
+      email: this.currentUser.email,
       billingAddress: !this.currentUser.billingAddress,
       token: (token: any, args: any) => {
         this.stripeCallback(self, order, token, args);
