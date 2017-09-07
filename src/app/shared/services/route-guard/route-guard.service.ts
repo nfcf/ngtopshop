@@ -17,7 +17,7 @@ import 'rxjs/add/observable/of';
 export class RouteGuardService implements CanActivate {
   private readonly ADMIN_ROUTES = ['products', 'users', 'orders'];
   private readonly MANAGER_ROUTES = ['products', 'orders'];
-  private readonly USER_ROUTES = ['home', 'orders'];
+  private readonly USER_ROUTES = ['shop', 'orders'];
 
   constructor(private store: Store<fromRoot.State>, private authService: AuthService) {
 

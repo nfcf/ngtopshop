@@ -20,6 +20,10 @@ a {
   display: flex;
 }
 
+.flex {
+  flex: 1;
+}
+
 .nowrap  { 
   -webkit-flex-wrap: nowrap;
   flex-wrap: nowrap;

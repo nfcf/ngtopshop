@@ -2,6 +2,7 @@
   <header class="header navbar">
     <h2>NgTopShop</h2>
     <span class="flex"></span>
+    <a *ngIf="showMenu && currentUser?.role === 'user'" routerLinkActive="active" routerLink="/shop">Shop</a>
     <a *ngIf="showMenu && currentUser?.role !== 'user'" routerLinkActive="active" routerLink="/products">Products</a>
     <a *ngIf="showMenu && currentUser?.role === 'admin'" routerLinkActive="active" routerLink="/users">Users</a>
     <a *ngIf="showMenu" routerLinkActive="active" routerLink="/orders">Orders</a>

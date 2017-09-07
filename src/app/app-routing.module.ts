@@ -30,10 +30,10 @@ const appRoutes: Routes = [
     data: { routeKey: 'orders'}
   },
   {
-    path: 'profile',
-    loadChildren: './profile/profile.module#ProfileModule',
+    path: 'shop',
+    loadChildren: './shop/shop.module#ShopModule',
     canActivate: [ RouteGuardService ],
-    data: { routeKey: 'profile'}
+    data: { routeKey: 'shop'}
   },
   { path: '**', component: PageNotFoundComponent }
 ];
