@@ -7,6 +7,7 @@ import { DialogModule } from 'primeng/primeng';
 import { AuthService } from 'app/shared/services';
 import * as UserActions from 'app/state/actions/user.actions';
 import * as ProductActions from 'app/state/actions/product.actions';
+import * as CartActions from 'app/state/actions/cart.actions';
 import * as fromRoot from 'app/state/reducers';
 import 'rxjs/add/operator/first';
 
@@ -87,10 +88,10 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
   addToCart(product: Product) {
-    this.store.dispatch(new ProductActions.Delete(product));
+    this.store.dispatch(new CartActions.Add(product));
   }
 
   removeFromCart(product: Product) {
-    this.store.dispatch(new ProductActions.Delete(product));
+    this.store.dispatch(new CartActions.Remove(product));
   }
 }

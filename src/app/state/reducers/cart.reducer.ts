@@ -1,6 +1,6 @@
 import { ActionReducer } from '@ngrx/store';
 import * as cartActions from '../actions/cart.actions';
-import { OrderItem } from 'app/shared/models';
+import { OrderItem, Product } from 'app/shared/models';
 
 
 export type State = OrderItem[];
@@ -12,28 +12,27 @@ export function reducer(state = intitialState, action: cartActions.Actions) {
   switch (action.type) {
     case cartActions.ADD:
       const existingItemToAdd = state.find((item: OrderItem) => {
-        return item.productId === action.payload.productId;
+        return item.productId === action.payload.id;
       });
       if (existingItemToAdd) {
         return state.map((item: OrderItem) => {
           existingItemToAdd.quantity++;
-          return item.productId === action.payload.productId ? existingItemToAdd : item; }
+          return item.productId === action.payload.id ? existingItemToAdd : item; }
         );
       } else {
-        action.payload.quantity = 1;
-        return [...state, action.payload];
+        return [...state, { productId: action.payload.id, quantity: 1, price: action.payload.price }];
       }
     case cartActions.REMOVE:
       const existingItemToRemove = state.find((item: OrderItem) => {
-        return item.productId === action.payload.productId;
+        return item.productId === action.payload.id;
       });
       if (existingItemToRemove) {
         if (existingItemToRemove.quantity === 1) {
-          return state.filter(item => item.productId !== action.payload.productId);
+          return state.filter(item => item.productId !== action.payload.id);
         } else {
           return state.map((item: OrderItem) => {
             existingItemToRemove.quantity--;
-            return item.productId === action.payload.productId ? existingItemToRemove : item; }
+            return item.productId === action.payload.id ? existingItemToRemove : item; }
           );
         }
       } else {

@@ -16,7 +16,12 @@ export class UserService {
 
 
   list(): Observable<User[]> {
-    return this.dbService.list(DbService.DB_USERS_REF);
+    return this.dbService.list(DbService.DB_USERS_REF).map((items: any[]) => {
+      items.forEach((item: any) => {
+        item.id = item.$key;
+      });
+      return items;
+    });
   }
 
   update(data: User): Observable<boolean> {

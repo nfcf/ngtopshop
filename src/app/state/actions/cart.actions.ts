@@ -1,19 +1,19 @@
 import { Action } from '@ngrx/store';
-import { OrderItem } from 'app/shared/models';
+import { Product } from 'app/shared/models';
 
-export const ADD = '[Cart] New';
-export const REMOVE = '[Cart] Update';
-export const CLEAR = '[Cart] Delete';
+export const ADD = '[Cart] Add';
+export const REMOVE = '[Cart] Remove';
+export const CLEAR = '[Cart] Clear';
 
 
 export class Add implements Action {
   readonly type = ADD;
-  constructor(public payload: OrderItem) {}
+  constructor(public payload: Product) {}
 }
 
 export class Remove implements Action {
   readonly type = REMOVE;
-  constructor(public payload: OrderItem) {}
+  constructor(public payload: Product) {}
 }
 
 export class Clear implements Action {

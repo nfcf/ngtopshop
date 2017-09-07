@@ -24,9 +24,12 @@ export class ProductService {
   }
 
   list(): Observable<Product[]> {
-    return this.dbService.list(DbService.DB_PRODUCTS_REF)
-    .flatMap((items: any[]) => {
-      return Observable.of(items.filter((item) => { return item.active; }));
+    return this.dbService.list(DbService.DB_PRODUCTS_REF).map((items: any[]) => {
+      items = items.filter((item) => { return item.active; });
+      items.forEach((item: any) => {
+        item.id = item.$key;
+      });
+      return items;
     });
   }
 
