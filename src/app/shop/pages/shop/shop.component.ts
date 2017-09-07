@@ -2,10 +2,11 @@ import { Subscription } from 'rxjs/Subscription';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { State, Store } from '@ngrx/store';
-import { Product, User, OrderItem } from 'app/shared/models';
+import { Product, User, OrderItem, Order } from 'app/shared/models';
 import { DialogModule } from 'primeng/primeng';
 import { AuthService } from 'app/shared/services';
 import * as UserActions from 'app/state/actions/user.actions';
+import * as OrderActions from 'app/state/actions/order.actions';
 import * as ProductActions from 'app/state/actions/product.actions';
 import * as CartActions from 'app/state/actions/cart.actions';
 import * as fromRoot from 'app/state/reducers';
@@ -56,6 +57,13 @@ export class ShopComponent implements OnInit, OnDestroy {
         this.products = items;
       })
     );
+
+    this.subscriptions.push(
+      this.store.select('cart')
+      .subscribe((items: OrderItem[]) => {
+        this.cart = items;
+      })
+    );
   }
 
   ngOnDestroy() {
@@ -63,6 +71,13 @@ export class ShopComponent implements OnInit, OnDestroy {
       sub.unsubscribe();
     });
     this.subscriptions.length = 0;
+  }
+
+  getCartQuantity(product: Product) {
+    const orderItem = this.cart.find((item: OrderItem) => {
+      return item.productId === product.id;
+    });
+    return orderItem ? orderItem.quantity : 0;
   }
 
   cancel() {
@@ -93,5 +108,43 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   removeFromCart(product: Product) {
     this.store.dispatch(new CartActions.Remove(product));
+  }
+
+  checkout() {
+    const order = new Order(this.currentUser.id);
+    order.items = this.cart;
+
+    const self = this;
+    const handler = (<any>window).StripeCheckout.configure({
+      key: 'pk_test_es8mju5aGwxTaVp1qJhBD6cE',
+      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+      locale: 'auto',
+      email: 'nfcf@ist.utl.pt', // this.currentUser.email,
+      billingAddress: !this.currentUser.billingAddress,
+      token: (token: any, args: any) => {
+        this.stripeCallback(self, order, token, args);
+      }
+    });
+
+    handler.open({
+      name: 'NgTopShop',
+      description: 'Buying Stuff',
+      amount: order.totalPrice * 100,
+      currency: 'EUR',
+      panelLabel: 'Buy now!',
+    });
+  }
+
+  private stripeCallback(self: any, order: Order, token: any, args: any) {
+    /*if (args && args.billing_address_line1) {
+      self.userProfile.address = args.billing_address_line1;
+      self.userProfile.postCode = args.billing_address_zip;
+      self.userProfile.city = args.billing_address_city;
+      self.userProfile.countryCode = args.billing_address_country_code;
+    }*/
+
+    this.store.dispatch(new OrderActions.New(order));
+
+    this.store.dispatch(new CartActions.Clear());
   }
 }

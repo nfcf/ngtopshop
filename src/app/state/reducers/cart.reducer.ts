@@ -16,9 +16,12 @@ export function reducer(state = intitialState, action: cartActions.Actions) {
       });
       if (existingItemToAdd) {
         return state.map((item: OrderItem) => {
-          existingItemToAdd.quantity++;
-          return item.productId === action.payload.id ? existingItemToAdd : item; }
-        );
+          if (item.productId === action.payload.id) {
+            existingItemToAdd.quantity++;
+            return existingItemToAdd;
+          }
+          return item;
+        });
       } else {
         return [...state, { productId: action.payload.id, quantity: 1, price: action.payload.price }];
       }
@@ -27,7 +30,7 @@ export function reducer(state = intitialState, action: cartActions.Actions) {
         return item.productId === action.payload.id;
       });
       if (existingItemToRemove) {
-        if (existingItemToRemove.quantity === 1) {
+        if (existingItemToRemove.quantity <= 1) {
           return state.filter(item => item.productId !== action.payload.id);
         } else {
           return state.map((item: OrderItem) => {

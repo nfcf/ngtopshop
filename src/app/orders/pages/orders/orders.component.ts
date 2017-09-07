@@ -76,22 +76,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.subscriptions.length = 0;
   }
 
-  newOrder() {
-    const order = <Order>{
-      userId: this.currentUser.id,
-      active: true,
-      createdAtUtc: new Date().toISOString(),
-      status: 'new',
-      items: this.generateOrderItems()
-    };
-    order.totalPrice = 0;
-    order.items.forEach((item: OrderItem) => {
-      order.totalPrice += item.quantity * item.price;
-    });
-
-    this.store.dispatch(new OrderActions.New(order));
-  }
-
   editOrder(item: Order) {
     this.formGroup.controls.$key.setValue(item.$key);
     this.formGroup.controls.status.setValue(item.status);

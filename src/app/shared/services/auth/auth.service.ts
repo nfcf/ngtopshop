@@ -45,6 +45,7 @@ export class AuthService {
       this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((user: firebase.User) => {
         const profile = <User> {
           displayName: displayName,
+          email: email,
           role: 'user'
         };
         user.sendEmailVerification().then(() => {
@@ -80,6 +81,7 @@ export class AuthService {
       this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((data: any) => {
         const profile = <User>{
           displayName: data.user.providerData[0].displayName || '',
+          email: data.user.email,
           role: 'user'
         };
         this.updateUserProfile(data.user, profile).subscribe(
