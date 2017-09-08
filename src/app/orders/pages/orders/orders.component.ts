@@ -8,6 +8,7 @@ import { AuthService } from 'app/shared/services';
 import * as OrderActions from 'app/state/actions/order.actions';
 import * as ProductActions from 'app/state/actions/product.actions';
 import * as fromRoot from 'app/state/reducers';
+import { BaseComponent } from 'app/shared/components';
 import 'rxjs/add/operator/first';
 
 @Component({
@@ -15,7 +16,7 @@ import 'rxjs/add/operator/first';
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
-export class OrdersComponent implements OnInit, OnDestroy {
+export class OrdersComponent extends BaseComponent implements OnInit {
 
   statuses: SelectItem[] = [
     { label: 'New', value: 'new' },
@@ -32,12 +33,11 @@ export class OrdersComponent implements OnInit, OnDestroy {
     visible: false
   }
 
-  private subscriptions: Subscription[] = [];
-
   constructor(
     private authService: AuthService,
     private store: Store<fromRoot.State>,
     private formBuilder: FormBuilder) {
+      super();
       this.formGroup = formBuilder.group({
         $key: [ null ],
         status: [ null, Validators.required ],
@@ -45,9 +45,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.authService.getCurrentUser().first().subscribe((user) => {
-      this.currentUser = user;
-    });
+    this.subscriptions.push(
+      this.authService.getCurrentUser()
+      .subscribe((user) => {
+        this.currentUser = user;
+      })
+    );
 
     this.store.dispatch(new OrderActions.ListRequest());
     this.store.dispatch(new ProductActions.ListRequest());
@@ -67,13 +70,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
         this.products = items;
       })
     );
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((sub) => {
-      sub.unsubscribe();
-    });
-    this.subscriptions.length = 0;
   }
 
   editOrder(item: Order) {

@@ -10,6 +10,7 @@ import * as OrderActions from 'app/state/actions/order.actions';
 import * as ProductActions from 'app/state/actions/product.actions';
 import * as CartActions from 'app/state/actions/cart.actions';
 import * as fromRoot from 'app/state/reducers';
+import { BaseComponent } from 'app/shared/components';
 import 'rxjs/add/operator/first';
 
 @Component({
@@ -17,7 +18,7 @@ import 'rxjs/add/operator/first';
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss']
 })
-export class ShopComponent implements OnInit, OnDestroy {
+export class ShopComponent extends BaseComponent implements OnInit {
 
   currentUser: User;
   products: Product[];
@@ -29,12 +30,11 @@ export class ShopComponent implements OnInit, OnDestroy {
     visible: false
   }
 
-  private subscriptions: Subscription[] = [];
-
   constructor(
     private authService: AuthService,
     private store: Store<fromRoot.State>,
     private formBuilder: FormBuilder) {
+      super();
       this.formGroup = formBuilder.group({
         $key: [ null ],
         billingAddress: [ null, Validators.required ],
@@ -44,7 +44,8 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions.push(
-      this.authService.getCurrentUser().subscribe((user) => {
+      this.authService.getCurrentUser()
+      .subscribe((user) => {
         this.currentUser = user;
       })
     );
@@ -64,13 +65,6 @@ export class ShopComponent implements OnInit, OnDestroy {
         this.cart = items;
       })
     );
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((sub) => {
-      sub.unsubscribe();
-    });
-    this.subscriptions.length = 0;
   }
 
   getCartQuantity(product: Product) {

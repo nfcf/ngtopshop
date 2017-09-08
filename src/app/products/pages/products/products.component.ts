@@ -7,6 +7,7 @@ import { DialogModule } from 'primeng/primeng';
 import { AuthService } from 'app/shared/services';
 import * as ProductActions from 'app/state/actions/product.actions';
 import * as fromRoot from 'app/state/reducers';
+import { BaseComponent } from 'app/shared/components';
 import 'rxjs/add/operator/first';
 
 @Component({
@@ -14,7 +15,7 @@ import 'rxjs/add/operator/first';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnInit, OnDestroy {
+export class ProductsComponent extends BaseComponent implements OnInit {
 
   currentUser: User;
   products: Product[];
@@ -26,12 +27,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
     type: 'new'
   }
 
-  private subscriptions: Subscription[] = [];
-
   constructor(
     private authService: AuthService,
     private store: Store<fromRoot.State>,
     private formBuilder: FormBuilder) {
+      super();
       this.formGroup = formBuilder.group({
         $key: [ null ],
         name: [ null, Validators.required ],
@@ -41,9 +41,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.authService.getCurrentUser().first().subscribe((user) => {
-      this.currentUser = user;
-    });
+    this.subscriptions.push(
+      this.authService.getCurrentUser()
+      .subscribe((user) => {
+        this.currentUser = user;
+      })
+    );
 
     this.store.dispatch(new ProductActions.ListRequest());
 
@@ -53,13 +56,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.products = items;
       })
     );
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((sub) => {
-      sub.unsubscribe();
-    });
-    this.subscriptions.length = 0;
   }
 
   newProduct() {

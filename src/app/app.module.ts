@@ -17,7 +17,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found.component';
-import { ProductService } from './products/services';
+import { ProductService } from 'app/shared/services';
 import { OrderService } from './orders/services';
 
 import { CustomRouterStateSerializer } from './shared/utils';

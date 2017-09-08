@@ -6,6 +6,7 @@ import { User } from 'app/shared/models';
 import { DialogModule, SelectItem } from 'primeng/primeng';
 import * as UserActions from 'app/state/actions/user.actions';
 import * as fromRoot from 'app/state/reducers';
+import { BaseComponent } from 'app/shared/components';
 
 
 @Component({
@@ -13,33 +14,19 @@ import * as fromRoot from 'app/state/reducers';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit, OnDestroy {
-  roles: SelectItem[] = [
-    { label: 'User', value: 'user' },
-    { label: 'Manager', value: 'manager' },
-    { label: 'Administrator', value: 'admin' }
-  ];
+export class UsersComponent extends BaseComponent implements OnInit {
 
   users: User[];
 
   formGroup: FormGroup;
-
+  abc: boolean;
   modal: any = {
-    visible: false
+    visible: false,
+    user: undefined
   }
 
-  private subscriptions: Subscription[] = [];
-
-  constructor(
-    private store: Store<fromRoot.State>,
-    private formBuilder: FormBuilder) {
-      this.formGroup = formBuilder.group({
-        $key: [ null ],
-        displayName: [ null, Validators.required ],
-        billingAddress: [ null, Validators.required ],
-        shippingAddress: [ null, Validators.required ],
-        role: [ 'user', Validators.required ],
-      });
+  constructor(private store: Store<fromRoot.State>) {
+      super();
   }
 
   ngOnInit() {
@@ -53,19 +40,8 @@ export class UsersComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach((sub) => {
-      sub.unsubscribe();
-    });
-    this.subscriptions.length = 0;
-  }
-
   editUser(user: User) {
-    this.formGroup.controls.$key.setValue(user.$key);
-    this.formGroup.controls.displayName.setValue(user.displayName);
-    this.formGroup.controls.billingAddress.setValue(user.billingAddress);
-    this.formGroup.controls.shippingAddress.setValue(user.shippingAddress);
-    this.formGroup.controls.role.setValue(user.role);
+    this.modal.user = user;
     this.modal.visible = true;
   }
 
@@ -74,14 +50,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new UserActions.Update(user));
   }
 
-  save() {
-    const user = <User>{
-      $key: this.formGroup.controls.$key.value,
-      displayName: this.formGroup.controls.displayName.value || '',
-      billingAddress: this.formGroup.controls.billingAddress.value || '',
-      shippingAddress: this.formGroup.controls.shippingAddress.value || '',
-      role: this.formGroup.controls.role.value || 'user'
-    }
+  save(user: User) {
     this.store.dispatch(new UserActions.Update(user));
 
     this.modal.visible = false;

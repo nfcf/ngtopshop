@@ -5,7 +5,7 @@ import { AlertsService } from '@jaspero/ng2-alerts';
 import { AuthService } from './../../../shared/services';
 import * as RouterActions from 'app/state/actions/router.actions';
 import * as fromRoot from 'app/state/reducers';
-
+import { BaseComponent } from 'app/shared/components';
 
 
 @Component({
@@ -13,7 +13,7 @@ import * as fromRoot from 'app/state/reducers';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends BaseComponent implements OnInit {
 
   loginForm: FormGroup;
 
@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
               private store: Store<fromRoot.State>,
               private authService: AuthService,
               private alertService: AlertsService) {
+    super();
     this.loginForm = formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -35,10 +36,7 @@ export class LoginComponent implements OnInit {
       const model = this.loginForm.value;
       this.authService.loginWithEmail(model.email, model.password).subscribe(
         (response: any) => {
-          this.authService.getCurrentUser().subscribe((profile) => {
-            const newRoute = profile.role !== 'user' ? 'products' : 'shop';
-            this.store.dispatch(new RouterActions.Go({ path: [newRoute] }));
-          });
+          this.loginSuccessful();
         },
         (error: any) => {
           this.alertService.create('error', error.message);
@@ -53,6 +51,16 @@ export class LoginComponent implements OnInit {
 
   resetPassword() {
     alert('not implemented yet');
+  }
+
+  private loginSuccessful() {
+    this.subscriptions.push(
+      this.authService.getCurrentUser()
+      .subscribe((profile) => {
+        const newRoute = profile.role !== 'user' ? 'products' : 'shop';
+        this.store.dispatch(new RouterActions.Go({ path: [newRoute] }));
+      })
+    );
   }
 
 }

@@ -8,6 +8,7 @@ import { DialogModule, PanelModule, ButtonModule, InputTextModule, DropdownModul
 import { UsersRoutingModule } from './users-routing.module';
 
 import { UsersComponent } from './pages';
+import { UserFormDialogComponent } from './components';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { UsersComponent } from './pages';
     DropdownModule
   ],
   declarations: [
-    UsersComponent
+    UsersComponent,
+    UserFormDialogComponent
   ],
   providers: [
 

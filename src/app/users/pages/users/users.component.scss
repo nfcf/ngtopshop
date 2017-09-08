@@ -4,3 +4,8 @@ p-dropdown {
   margin-bottom: 16px;
 }
 
+.panel {
+  /deep/.ui-panel-content {
+    min-height: 256px;
+  }
+}

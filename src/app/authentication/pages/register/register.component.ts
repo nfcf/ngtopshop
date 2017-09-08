@@ -6,6 +6,7 @@ import { AlertsService } from '@jaspero/ng2-alerts';
 import { AuthService } from './../../../shared/services';
 import * as RouterActions from 'app/state/actions/router.actions';
 import * as fromRoot from 'app/state/reducers';
+import { BaseComponent } from 'app/shared/components';
 
 
 @Component({
@@ -13,7 +14,7 @@ import * as fromRoot from 'app/state/reducers';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent extends BaseComponent  implements OnInit {
   @ViewChild(ReCaptchaComponent) recaptcha: ReCaptchaComponent;
 
   registerForm: FormGroup;
@@ -22,6 +23,7 @@ export class RegisterComponent implements OnInit {
               private store: Store<fromRoot.State>,
               private authService: AuthService,
               private alertService: AlertsService) {
+    super();
     this.registerForm = formBuilder.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required]],
@@ -38,10 +40,7 @@ export class RegisterComponent implements OnInit {
       const model = this.registerForm.value;
       this.authService.registerWithEmail(model.name, model.email, model.password).subscribe(
         (response: any) => {
-          this.authService.logout(); // this clears any inmemory user and goes to the login page
-          setTimeout(() => {
-            this.alertService.create('success', 'A verification email has been sent to your account!');
-          }, 500);
+          this.registerSuccessful();
         },
         (error: any) => {
           this.alertService.create('error', error.message);
@@ -54,4 +53,10 @@ export class RegisterComponent implements OnInit {
     this.store.dispatch(new RouterActions.Go({ path: ['auth/login'] }));
   }
 
+  private registerSuccessful() {
+    this.authService.logout(); // this clears any inmemory user and goes to the login page
+    setTimeout(() => {
+      this.alertService.create('success', 'A verification email has been sent to your account!');
+    }, 500);
+  }
 }

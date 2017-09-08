@@ -1,0 +1,19 @@
+<p-dialog [(visible)]="visible">
+  <p-header>
+    Edit User
+  </p-header>
+  <div [formGroup]="formGroup">
+    <label>Display Name</label>
+    <input pInputText name="displayName" formControlName="displayName"/>
+    <label>Role</label>
+    <p-dropdown [options]="roles" [autoWidth]="false" formControlName="role"></p-dropdown>
+    <label>Billing Address</label>
+    <textarea pInputTextarea rows="4" name="billingAddress" formControlName="billingAddress"></textarea>      
+    <label>Shipping Address</label>
+    <textarea pInputTextarea rows="4" name="shippingAddress" formControlName="shippingAddress"></textarea>
+  </div>
+  <p-footer>
+    <button pButton (click)="close()" label="Cancel" class="ui-button-danger"></button>
+    <button pButton (click)="save()" label="Save"></button>
+  </p-footer>
+</p-dialog>
