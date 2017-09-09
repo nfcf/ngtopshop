@@ -6,7 +6,7 @@ import { ProductService, AuthService } from 'app/shared/services';
 import { Product } from 'app/shared/models';
 
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/takeWhile';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class ProductEffects {
@@ -14,8 +14,8 @@ export class ProductEffects {
   list$ = this.actions$.ofType(ProductActions.LIST_REQUEST)
     .switchMap(() => {
       return this.productService.list()
-      .takeWhile(() => {
-        return this.authService.isAuthenticatedCheckForNgrxEffects();
+      .catch((error: any) => {
+        return Observable.of([]);
       });
     })
     .switchMap((result) => {

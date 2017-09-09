@@ -12,7 +12,10 @@ export class OrderEffects {
   @Effect()
   list$ = this.actions$.ofType(OrderActions.LIST_REQUEST)
     .switchMap(() => {
-      return this.orderService.list();
+      return this.orderService.list()
+      .catch((error: any) => {
+        return Observable.of([]);
+      });
     })
     .switchMap((result) => {
       return Observable.of(new OrderActions.ListResult(result));

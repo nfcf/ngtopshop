@@ -34,10 +34,6 @@ export class AuthService {
     });
   }
 
-  isAuthenticatedCheckForNgrxEffects(): boolean {
-    return !!this.user;
-  }
-
   isAuthenticated(): Observable<boolean> {
     return Observable.create((observer: Observer<boolean>) => {
       this.internalIsAuthenticatedCheck(observer);
@@ -104,7 +100,6 @@ export class AuthService {
   }
 
   logout() {
-    this.user = null;
     this.store.dispatch(new RouterActions.Go({ path: ['auth/login'] }));
 
     if (this.userProfileSubscription) {
@@ -112,6 +107,7 @@ export class AuthService {
     }
 
     setTimeout(() => {
+      this.user = null;
       this.afAuth.auth.signOut();
       localStorage.clear(); // this clears any remaining firebase localStorage stuff...
     }, 100);

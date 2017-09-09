@@ -12,7 +12,10 @@ export class UserEffects {
   @Effect()
   list$ = this.actions$.ofType(UserActions.LIST_REQUEST)
     .switchMap(() => {
-      return this.userService.list();
+      return this.userService.list()
+      .catch((error: any) => {
+        return Observable.of([]);
+      });
     })
     .switchMap((result) => {
       return Observable.of(new UserActions.ListResult(result));
