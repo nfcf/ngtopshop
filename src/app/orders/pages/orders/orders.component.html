@@ -18,16 +18,6 @@
   </ul>
 </div>
 
-<p-dialog [(visible)]="modal.visible">
-  <p-header>
-    Edit Order
-  </p-header>
-  <div [formGroup]="formGroup">
-    <label>Status</label>
-    <p-dropdown [options]="statuses" [autoWidth]="false" formControlName="status"></p-dropdown>
-  </div>
-  <p-footer>
-    <button pButton (click)="cancel()" label="Cancel" class="ui-button-danger"></button>
-    <button pButton (click)="save()" label="Save"></button>
-  </p-footer>
-</p-dialog>
+<order-form-dialog [(visible)]="modal.visible" [order]="modal.order" (submit)="save($event)"></order-form-dialog>
+
+<jaspero-confirmations [defaultSettings]="{ overlayClickToClose: false }"></jaspero-confirmations>

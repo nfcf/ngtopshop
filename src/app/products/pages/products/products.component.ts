@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { State, Store } from '@ngrx/store';
+import { ConfirmationService } from '@jaspero/ng2-confirmations';
 import { Product, User } from 'app/shared/models';
 import { DialogModule } from 'primeng/primeng';
 import { AuthService } from 'app/shared/services';
@@ -20,24 +21,16 @@ export class ProductsComponent extends BaseComponent implements OnInit {
   currentUser: User;
   products: Product[];
 
-  formGroup: FormGroup;
-
   modal: any = {
     visible: false,
-    type: 'new'
+    product: undefined
   }
 
   constructor(
     private authService: AuthService,
-    private store: Store<fromRoot.State>,
-    private formBuilder: FormBuilder) {
+    private confirmationService: ConfirmationService,
+    private store: Store<fromRoot.State>) {
       super();
-      this.formGroup = formBuilder.group({
-        $key: [ null ],
-        name: [ null, Validators.required ],
-        description: [ null, Validators.required ],
-        price: [ null, Validators.required ],
-      });
   }
 
   ngOnInit() {
@@ -59,45 +52,30 @@ export class ProductsComponent extends BaseComponent implements OnInit {
   }
 
   newProduct() {
-    this.modal.type = 'new';
-    this.formGroup.controls.$key.setValue(undefined);
-    this.formGroup.controls.name.setValue(undefined);
-    this.formGroup.controls.description.setValue(undefined);
-    this.formGroup.controls.price.setValue(undefined);
+    this.modal.product = new Product();
     this.modal.visible = true;
   }
 
   editProduct(product: Product) {
-    this.modal.type = 'edit';
-    this.formGroup.controls.$key.setValue(product.$key);
-    this.formGroup.controls.name.setValue(product.name);
-    this.formGroup.controls.description.setValue(product.description);
-    this.formGroup.controls.price.setValue(product.price);
+    this.modal.product = product;
     this.modal.visible = true;
   }
 
   deleteProduct(product: Product) {
-    this.store.dispatch(new ProductActions.Delete(product));
+    this.confirmationService.create('CONFIRM', 'Are you sure you want to delete this item?')
+    .subscribe((result: any) => {
+      if (result.resolved) {
+        this.store.dispatch(new ProductActions.Delete(product));
+      }
+    });
   }
 
-  save() {
-    const product = <Product>{
-      $key: this.formGroup.controls.$key.value,
-      name: this.formGroup.controls.name.value,
-      description: this.formGroup.controls.description.value,
-      price: this.formGroup.controls.price.value,
-      active: true,
-    }
-    if (this.modal.type === 'new') {
-      this.store.dispatch(new ProductActions.New(product));
-    } else {
+  save(product: Product) {
+    if (product.$key) {
       this.store.dispatch(new ProductActions.Update(product));
+    } else {
+      this.store.dispatch(new ProductActions.New(product));
     }
-
-    this.modal.visible = false;
-  }
-
-  cancel() {
     this.modal.visible = false;
   }
 

@@ -19,19 +19,5 @@
   <br>
   <button pButton (click)="checkout()" label="Checkout" class="ui-button-success"></button>
 
-  <p-dialog [(visible)]="modal.visible">
-    <p-header>
-      Edit Profile
-    </p-header>
-    <div [formGroup]="formGroup">
-      <label>Billing Address</label>
-      <textarea pInputTextarea rows="4" name="billingAddress" formControlName="billingAddress"></textarea>      
-      <label>Shipping Address</label>
-      <textarea pInputTextarea rows="4" name="shippingAddress" formControlName="shippingAddress"></textarea>
-    </div>
-    <p-footer>
-      <button pButton (click)="cancel()" label="Cancel" class="ui-button-danger"></button>
-      <button pButton (click)="saveProfile()" label="Save"></button>
-    </p-footer>
-  </p-dialog>
+  <profile-form-dialog [(visible)]="modal.visible" [user]="modal.user" (submit)="save($event)"></profile-form-dialog>
 </div>

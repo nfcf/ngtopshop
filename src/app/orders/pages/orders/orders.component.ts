@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { State, Store } from '@ngrx/store';
+import { ConfirmationService } from '@jaspero/ng2-confirmations';
 import { Order, User, OrderItem, Product } from 'app/shared/models';
 import { DialogModule, SelectItem } from 'primeng/primeng';
 import { AuthService } from 'app/shared/services';
@@ -27,21 +28,16 @@ export class OrdersComponent extends BaseComponent implements OnInit {
   orders: Order[];
   products: Product[];
 
-  formGroup: FormGroup;
-
   modal: any = {
-    visible: false
+    visible: false,
+    order: undefined
   }
 
   constructor(
     private authService: AuthService,
-    private store: Store<fromRoot.State>,
-    private formBuilder: FormBuilder) {
+    private confirmationService: ConfirmationService,
+    private store: Store<fromRoot.State>) {
       super();
-      this.formGroup = formBuilder.group({
-        $key: [ null ],
-        status: [ null, Validators.required ],
-      });
   }
 
   ngOnInit() {
@@ -72,42 +68,23 @@ export class OrdersComponent extends BaseComponent implements OnInit {
     );
   }
 
-  editOrder(item: Order) {
-    this.formGroup.controls.$key.setValue(item.$key);
-    this.formGroup.controls.status.setValue(item.status);
+  editOrder(order: Order) {
+    this.modal.order = order;
     this.modal.visible = true;
   }
 
-  deleteOrder(item: Order) {
-    this.store.dispatch(new OrderActions.Delete(item));
+  deleteOrder(order: Order) {
+    this.confirmationService.create('CONFIRM', 'Are you sure you want to delete this item?')
+    .subscribe((result: any) => {
+      if (result.resolved) {
+        this.store.dispatch(new OrderActions.Delete(order));
+      }
+    });
   }
 
-  save() {
-    const item = <Order>{
-      $key: this.formGroup.controls.$key.value,
-      status: this.formGroup.controls.status.value,
-    }
+  save(item: Order) {
     this.store.dispatch(new OrderActions.Update(item));
-
     this.modal.visible = false;
-  }
-
-  cancel() {
-    this.modal.visible = false;
-  }
-
-  private generateOrderItems(): OrderItem[] {
-    const iterations = Math.round(Math.random() * 3);
-    const result = [];
-    for (let i = 0; i <= iterations; i++) {
-      const product = this.products[Math.round(Math.random() * (this.products.length - 1))];
-      result.push(<OrderItem>{
-        productId: product.$key,
-        quantity: Math.round(Math.random() * 3),
-        price: product.price
-      });
-    }
-    return result;
   }
 
 }

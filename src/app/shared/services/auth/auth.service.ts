@@ -19,7 +19,7 @@ import * as firebase from 'firebase/app';
 export class AuthService {
   private readonly DB_USERS_REF = '/users/';
 
-  user: firebase.User;
+  private user: firebase.User;
 
   private userProfileSubscription: Subscription;
   private isFirstTime: boolean;
@@ -32,6 +32,10 @@ export class AuthService {
     afAuth.authState.subscribe((user: firebase.User) => {
       this.setUserAndFetchProfile(user);
     });
+  }
+
+  isAuthenticatedCheckForNgrxEffects(): boolean {
+    return !!this.user;
   }
 
   isAuthenticated(): Observable<boolean> {
@@ -100,16 +104,17 @@ export class AuthService {
   }
 
   logout() {
+    this.user = null;
+    this.store.dispatch(new RouterActions.Go({ path: ['auth/login'] }));
+
     if (this.userProfileSubscription) {
       this.userProfileSubscription.unsubscribe();
     }
-    this.user = null;
-    localStorage.clear(); // this clears any remaining firebase localStorage stuff...
 
     setTimeout(() => {
       this.afAuth.auth.signOut();
-      this.store.dispatch(new RouterActions.Go({ path: ['auth/login'] }));
-    });
+      localStorage.clear(); // this clears any remaining firebase localStorage stuff...
+    }, 100);
   }
 
   updateUserProfile(user: firebase.User, profile: User): Observable<boolean> {

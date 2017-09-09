@@ -1,0 +1,13 @@
+<p-dialog [(visible)]="visible">
+  <p-header>
+    Edit Order
+  </p-header>
+  <div [formGroup]="formGroup">
+    <label>Status</label>
+    <p-dropdown [options]="statuses" [autoWidth]="false" formControlName="status"></p-dropdown>
+  </div>
+  <p-footer>
+    <button pButton (click)="close()" label="Cancel" class="ui-button-danger"></button>
+    <button pButton (click)="save()" label="Save"></button>
+  </p-footer>
+</p-dialog>

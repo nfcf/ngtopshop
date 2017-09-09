@@ -11,7 +11,9 @@ import * as ProductActions from 'app/state/actions/product.actions';
 import * as CartActions from 'app/state/actions/cart.actions';
 import * as fromRoot from 'app/state/reducers';
 import { BaseComponent } from 'app/shared/components';
+import { environment } from 'environments/environment';
 import 'rxjs/add/operator/first';
+
 
 @Component({
   selector: 'app-shop',
@@ -24,10 +26,9 @@ export class ShopComponent extends BaseComponent implements OnInit {
   products: Product[];
   cart: OrderItem[];
 
-  formGroup: FormGroup;
-
   modal: any = {
-    visible: false
+    visible: false,
+    user: undefined
   }
 
   constructor(
@@ -35,11 +36,6 @@ export class ShopComponent extends BaseComponent implements OnInit {
     private store: Store<fromRoot.State>,
     private formBuilder: FormBuilder) {
       super();
-      this.formGroup = formBuilder.group({
-        $key: [ null ],
-        billingAddress: [ null, Validators.required ],
-        shippingAddress: [ null, Validators.required ],
-      });
   }
 
   ngOnInit() {
@@ -74,25 +70,13 @@ export class ShopComponent extends BaseComponent implements OnInit {
     return orderItem ? orderItem.quantity : 0;
   }
 
-  cancel() {
-    this.modal.visible = false;
-  }
-
   editProfile() {
-    this.formGroup.controls.$key.setValue(this.currentUser.id);
-    this.formGroup.controls.billingAddress.setValue(this.currentUser.billingAddress);
-    this.formGroup.controls.shippingAddress.setValue(this.currentUser.shippingAddress);
+    this.modal.user = this.currentUser;
     this.modal.visible = true;
   }
 
-  saveProfile() {
-    const user = <User>{
-      $key: this.formGroup.controls.$key.value,
-      billingAddress: this.formGroup.controls.billingAddress.value,
-      shippingAddress: this.formGroup.controls.shippingAddress.value
-    }
+  save(user: User) {
     this.store.dispatch(new UserActions.Update(user));
-
     this.modal.visible = false;
   }
 
@@ -110,8 +94,8 @@ export class ShopComponent extends BaseComponent implements OnInit {
 
     const self = this;
     const handler = (<any>window).StripeCheckout.configure({
-      key: 'pk_test_es8mju5aGwxTaVp1qJhBD6cE',
-      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+      key: environment.stripe.apiKey,
+      image: environment.stripe.checkoutImage,
       locale: 'auto',
       email: this.currentUser.email,
       billingAddress: !this.currentUser.billingAddress,

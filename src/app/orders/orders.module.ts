@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { JasperoConfirmationsModule } from '@jaspero/ng2-confirmations';
 import { DialogModule, PanelModule, ButtonModule, InputTextModule, DropdownModule } from 'primeng/primeng';
 
 import { OrdersRoutingModule } from './orders-routing.module';
 
 import { OrdersComponent } from './pages';
+import { OrderFormDialogComponent } from './components';
 import { OrderService } from './services';
 
 
@@ -18,6 +20,8 @@ import { OrderService } from './services';
     ReactiveFormsModule,
     OrdersRoutingModule,
 
+    JasperoConfirmationsModule,
+
     DialogModule,
     PanelModule,
     ButtonModule,
@@ -25,7 +29,8 @@ import { OrderService } from './services';
     DropdownModule
   ],
   declarations: [
-    OrdersComponent
+    OrdersComponent,
+    OrderFormDialogComponent
   ],
   providers: [
     OrderService

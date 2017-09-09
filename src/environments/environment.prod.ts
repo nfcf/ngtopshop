@@ -9,4 +9,8 @@ export const environment = {
     storageBucket: '',
     messagingSenderId: '449063369106'
   },
+  stripe: {
+    apiKey: 'pk_test_es8mju5aGwxTaVp1qJhBD6cE',
+    checkoutImage: 'https://stripe.com/img/documentation/checkout/marketplace.png'
+  }
 };

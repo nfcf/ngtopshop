@@ -61,3 +61,10 @@ input {
 .ui-dialog.ui-widget .ui-dialog-content {
   padding-bottom: 96px !important;
 }
+
+jaspero-confirmation {
+  pointer-events: inherit !important; // Bug fix!!! buttons don't work without this for some reason...
+  .jaspero__dialog-actions[_ngcontent-c4] button.primary[_ngcontent-c4] {
+    background-color: #d9534f !important;
+  }
+}

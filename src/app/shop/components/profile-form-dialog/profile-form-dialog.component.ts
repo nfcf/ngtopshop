@@ -6,10 +6,10 @@ import { User } from 'app/shared/models';
 
 
 @Component({
-  selector: 'user-form-dialog',
-  templateUrl: './user-form-dialog.component.html'
+  selector: 'profile-form-dialog',
+  templateUrl: './profile-form-dialog.component.html'
 })
-export class UserFormDialogComponent extends BaseComponent {
+export class ProfileFormDialogComponent extends BaseComponent {
   @Input() visible: boolean;
   @Input() set user(value: User) {
     this._user = value;
@@ -17,12 +17,6 @@ export class UserFormDialogComponent extends BaseComponent {
   }
   @Output() visibleChange: EventEmitter<boolean>;
   @Output() submit: EventEmitter<User>;
-
-  readonly roles: SelectItem[] = [
-    { label: 'User', value: 'user' },
-    { label: 'Manager', value: 'manager' },
-    { label: 'Administrator', value: 'admin' }
-  ];
 
   formGroup: FormGroup;
   private _user: User;
@@ -38,7 +32,6 @@ export class UserFormDialogComponent extends BaseComponent {
         displayName: [ null, Validators.required ],
         billingAddress: [ null, Validators.required ],
         shippingAddress: [ null, Validators.required ],
-        role: [ 'user', Validators.required ],
       });
   }
 
@@ -47,8 +40,7 @@ export class UserFormDialogComponent extends BaseComponent {
       $key: this.formGroup.controls.$key.value,
       displayName: this.formGroup.controls.displayName.value || '',
       billingAddress: this.formGroup.controls.billingAddress.value || '',
-      shippingAddress: this.formGroup.controls.shippingAddress.value || '',
-      role: this.formGroup.controls.role.value || 'user'
+      shippingAddress: this.formGroup.controls.shippingAddress.value || ''
     }
     this.submit.emit(user);
 
@@ -66,7 +58,6 @@ export class UserFormDialogComponent extends BaseComponent {
       this.formGroup.controls.displayName.setValue(this._user.displayName);
       this.formGroup.controls.billingAddress.setValue(this._user.billingAddress);
       this.formGroup.controls.shippingAddress.setValue(this._user.shippingAddress);
-      this.formGroup.controls.role.setValue(this._user.role);
     }
   }
 }

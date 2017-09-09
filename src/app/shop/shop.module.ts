@@ -8,6 +8,7 @@ import { DialogModule, PanelModule, ButtonModule, InputTextModule, InputTextarea
 import { ShopRoutingModule } from './shop-routing.module';
 
 import { ShopComponent } from './pages';
+import { ProfileFormDialogComponent } from './components';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ShopComponent } from './pages';
     InputTextareaModule
   ],
   declarations: [
-    ShopComponent
+    ShopComponent,
+    ProfileFormDialogComponent
   ],
   providers: [
   ]

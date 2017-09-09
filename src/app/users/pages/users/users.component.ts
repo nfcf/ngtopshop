@@ -18,8 +18,6 @@ export class UsersComponent extends BaseComponent implements OnInit {
 
   users: User[];
 
-  formGroup: FormGroup;
-  abc: boolean;
   modal: any = {
     visible: false,
     user: undefined
@@ -52,11 +50,6 @@ export class UsersComponent extends BaseComponent implements OnInit {
 
   save(user: User) {
     this.store.dispatch(new UserActions.Update(user));
-
-    this.modal.visible = false;
-  }
-
-  cancel() {
     this.modal.visible = false;
   }
 

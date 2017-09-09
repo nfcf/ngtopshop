@@ -2,17 +2,21 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Effect, Actions } from '@ngrx/effects';
 import * as ProductActions from 'app/state/actions/product.actions';
-import { ProductService } from 'app/shared/services';
+import { ProductService, AuthService } from 'app/shared/services';
 import { Product } from 'app/shared/models';
 
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/takeWhile';
 
 @Injectable()
 export class ProductEffects {
   @Effect()
   list$ = this.actions$.ofType(ProductActions.LIST_REQUEST)
     .switchMap(() => {
-      return this.productService.list();
+      return this.productService.list()
+      .takeWhile(() => {
+        return this.authService.isAuthenticatedCheckForNgrxEffects();
+      });
     })
     .switchMap((result) => {
       return Observable.of(new ProductActions.ListResult(result));
@@ -41,6 +45,7 @@ export class ProductEffects {
 
   constructor(
     private actions$: Actions,
+    private authService: AuthService,
     private productService: ProductService
   ) { }
 }

@@ -9,7 +9,6 @@ import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { JasperoAlertsModule } from '@jaspero/ng2-alerts';
 import { DialogModule, PanelModule } from 'primeng/primeng';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +45,6 @@ import { environment } from '../environments/environment';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
 
-    JasperoAlertsModule,
     DialogModule,
     PanelModule
   ],
