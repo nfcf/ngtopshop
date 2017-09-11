@@ -28,8 +28,8 @@ export class DbService {
     });
   }
 
-  list(pathOrRef: string): Observable<any[]> {
-    return this.afDatabase.list(pathOrRef).map((results: any[]) => {
+  list(pathOrRef: string, query?: any): Observable<any[]> {
+    return this.afDatabase.list(pathOrRef, query).map((results: any[]) => {
       return results;
     });
   }

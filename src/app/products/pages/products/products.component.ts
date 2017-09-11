@@ -42,7 +42,6 @@ export class ProductsComponent extends BaseComponent implements OnInit {
     );
 
     this.store.dispatch(new ProductActions.ListRequest());
-
     this.subscriptions.push(
       this.store.select('products')
       .subscribe((items: Product[]) => {

@@ -55,7 +55,7 @@ export class ProductFormDialogComponent extends BaseComponent {
 
   private bindInputToForm() {
     if (this._product) {
-      this.formGroup.controls.$key.setValue(this._product.$key);
+      this.formGroup.controls.$key.setValue(this._product.$key || this._product.id);
       this.formGroup.controls.name.setValue(this._product.name);
       this.formGroup.controls.description.setValue(this._product.description);
       this.formGroup.controls.price.setValue(this._product.price);

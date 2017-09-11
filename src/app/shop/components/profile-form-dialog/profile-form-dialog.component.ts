@@ -54,7 +54,7 @@ export class ProfileFormDialogComponent extends BaseComponent {
 
   private bindInputToForm() {
     if (this._user) {
-      this.formGroup.controls.$key.setValue(this._user.$key);
+      this.formGroup.controls.$key.setValue(this._user.$key || this._user.id);
       this.formGroup.controls.displayName.setValue(this._user.displayName);
       this.formGroup.controls.billingAddress.setValue(this._user.billingAddress);
       this.formGroup.controls.shippingAddress.setValue(this._user.shippingAddress);

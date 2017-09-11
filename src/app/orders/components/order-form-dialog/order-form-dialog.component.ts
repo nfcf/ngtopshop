@@ -55,7 +55,7 @@ export class OrderFormDialogComponent extends BaseComponent {
 
   private bindInputToForm() {
     if (this._order) {
-      this.formGroup.controls.$key.setValue(this._order.$key);
+      this.formGroup.controls.$key.setValue(this._order.$key || this._order.id);
       this.formGroup.controls.status.setValue(this._order.status);
     }
   }

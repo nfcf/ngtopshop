@@ -50,17 +50,24 @@ export class OrdersComponent extends BaseComponent implements OnInit {
       })
     );
 
+    this.store.dispatch(new OrderActions.ListRequest());
     this.subscriptions.push(
       this.store.select('orders')
       .subscribe((items: Order[]) => {
-        this.orders = items.filter((item) => {
-          return item.userEmail === this.currentUser.email;
-        }).map((item: Order) => {
+        this.orders = items;
+
+        if (this.currentUser.role === 'user') {
+          this.orders = this.orders.filter((item) => {
+            return item.userEmail === this.currentUser.email;
+          });
+        }
+        this.orders = this.orders.map((item: Order) => {
           return plainToClass(Order, item);
         });
       })
     );
 
+    this.store.dispatch(new ProductActions.ListRequest());
     this.subscriptions.push(
       this.store.select('products')
       .subscribe((items: Product[]) => {

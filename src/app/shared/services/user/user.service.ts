@@ -25,7 +25,7 @@ export class UserService {
   }
 
   update(data: User): Observable<boolean> {
-    const uid = data.$key
+    const uid = data.$key || data.id;
     data = JSON.parse(JSON.stringify(data));
     delete data.$key;
     return this.dbService.update(DbService.DB_USERS_REF, uid, data);

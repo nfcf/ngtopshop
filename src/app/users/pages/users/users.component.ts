@@ -28,6 +28,7 @@ export class UsersComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(new UserActions.ListRequest());
     this.subscriptions.push(
       this.store.select('users')
       .subscribe((items: User[]) => {

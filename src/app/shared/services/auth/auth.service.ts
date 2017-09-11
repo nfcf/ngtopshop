@@ -108,6 +108,7 @@ export class AuthService {
 
   logout() {
     this.store.dispatch(new RouterActions.Go({ path: ['auth/login'] }));
+    this.store.dispatch(new SessionActions.ClearSession());
 
     if (this.userProfileSubscription) {
       this.userProfileSubscription.unsubscribe();
@@ -148,8 +149,15 @@ export class AuthService {
         this.internalIsAuthenticatedCheck(observer, iteration + 1);
       }, 100);
     } else {
-      observer.next(this.user && this.user.emailVerified);
-      observer.complete();
+      if (this.user && this.user.emailVerified) {
+        this.user.getIdToken().then((token: string) => {
+          observer.next(true);
+          observer.complete();
+        });
+      } else {
+        observer.next(false);
+        observer.complete();
+      }
     }
   }
 

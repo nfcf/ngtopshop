@@ -79,7 +79,7 @@ a {
 
 jaspero-confirmation {
   pointer-events: inherit !important; // Bug fix!!! buttons don't work without this for some reason...
-  .jaspero__dialog-actions[_ngcontent-c4] button.primary[_ngcontent-c4] {
+  .jaspero__dialog-actions button.primary {
     background-color: #d9534f !important;
   }
 }

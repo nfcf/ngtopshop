@@ -56,6 +56,7 @@ export class ShopComponent extends BaseComponent implements OnInit {
       })
     );
 
+    this.store.dispatch(new OrderActions.ListRequest());
     this.subscriptions.push(
       this.store.select('orders')
       .subscribe((items: Order[]) => {

@@ -15,8 +15,12 @@ export class OrderService {
   constructor(private dbService: DbService) {}
 
   list(): Observable<Order[]> {
-    return this.dbService.list(DbService.DB_ORDERS_REF).map((items: any[]) => {
-      items = items.filter((item) => { return item.active; });
+    return this.dbService.list(DbService.DB_ORDERS_REF, {
+      query: {
+        orderByChild: 'active',
+        equalTo: true
+      }
+    }).map((items: any[]) => {
       items.forEach((item: any) => {
         item.id = item.$key;
       });
@@ -25,14 +29,14 @@ export class OrderService {
   }
 
   set(data: Order): Observable<Order> {
-    const uid = data.$key || UUID.UUID();
+    const uid = data.$key || data.id || UUID.UUID();
     data = JSON.parse(JSON.stringify(data));
     delete data.$key;
     return this.dbService.set(DbService.DB_ORDERS_REF, uid, data);
   }
 
   update(data: Order): Observable<boolean> {
-    const uid = data.$key || UUID.UUID();
+    const uid = data.$key || data.id;
     data = JSON.parse(JSON.stringify(data));
     delete data.$key;
     return this.dbService.update(DbService.DB_ORDERS_REF, uid, data);

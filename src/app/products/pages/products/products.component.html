@@ -1,6 +1,7 @@
 <div class="container">
   <button pButton (click)="newProduct()" label="New Product"></button>
   <br>
+  <h2 *ngIf="products.length === 0">No Product Yet...</h2>
   <ul class="flex-container wrap">
     <p-panel *ngFor="let product of products" class="panel">
       <p-header>
