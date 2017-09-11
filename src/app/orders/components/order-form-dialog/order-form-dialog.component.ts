@@ -20,7 +20,8 @@ export class OrderFormDialogComponent extends BaseComponent {
 
   readonly statuses: SelectItem[] = [
     { label: 'New', value: 'new' },
-    { label: 'Dispatched', value: 'dispatched' }
+    { label: 'Dispatched', value: 'dispatched' },
+    { label: 'Delivered', value: 'delivered' }
   ];
 
   formGroup: FormGroup;
