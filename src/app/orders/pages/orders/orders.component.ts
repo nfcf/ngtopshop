@@ -20,12 +20,6 @@ import 'rxjs/add/operator/first';
 })
 export class OrdersComponent extends BaseComponent implements OnInit {
 
-  statuses: SelectItem[] = [
-    { label: 'New', value: 'new' },
-    { label: 'Dispatched', value: 'dispatched' },
-    { label: 'Delivered', value: 'delivered' }
-  ];
-
   currentUser: User;
   orders: Order[];
   products: Product[];
