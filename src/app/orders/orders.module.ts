@@ -10,7 +10,6 @@ import { OrdersRoutingModule } from './orders-routing.module';
 
 import { OrdersComponent } from './pages';
 import { OrderFormDialogComponent } from './components';
-import { OrderService } from './services';
 
 
 @NgModule({
@@ -33,7 +32,6 @@ import { OrderService } from './services';
     OrderFormDialogComponent
   ],
   providers: [
-    OrderService
   ]
 })
 export class OrdersModule { }

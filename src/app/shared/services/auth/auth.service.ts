@@ -46,15 +46,17 @@ export class AuthService {
         const profile = <User> {
           displayName: displayName,
           email: email,
-          role: 'user'
+          role: 'user',
+          active: true
         };
         user.sendEmailVerification().then(() => {
-          this.afDatabase.object(this.DB_USERS_REF + user.uid).set(profile).then(() => {
-            observer.next(true);
-            observer.complete();
-          }).catch((error: any) => {
-            observer.error(error);
-          });
+          this.updateUserProfile(user, profile).subscribe(() => {
+              observer.next(true);
+              observer.complete();
+            }, (error: any) => {
+              observer.error(error);
+            }
+          );
         }).catch((error: any) => {
           observer.error(error);
         });
@@ -65,11 +67,16 @@ export class AuthService {
   }
 
   loginWithEmail(email: string, password: string): Observable<any> {
+    this.user = undefined;
     return Observable.create((observer: Observer<boolean>) => {
       this.afAuth.auth.signInWithEmailAndPassword(email, password).then((user: firebase.User) => {
-        this.setUserAndFetchProfile(user);
-        observer.next(true);
-        observer.complete();
+        if (user.emailVerified) {
+          this.setUserAndFetchProfile(user);
+          observer.next(true);
+          observer.complete();
+        } else {
+          throw new Error('Account is pending email verification.');
+        }
       }).catch((error: any) => {
         observer.error(error);
       });
@@ -77,19 +84,19 @@ export class AuthService {
   }
 
   loginWithGoogle(): Observable<any> {
+    this.user = undefined;
     return Observable.create((observer: Observer<boolean>) => {
       this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((data: any) => {
         const profile = <User>{
           displayName: data.user.providerData[0].displayName || '',
           email: data.user.email,
-          role: 'user'
+          role: 'user',
+          active: true
         };
-        this.updateUserProfile(data.user, profile).subscribe(
-          () => {
+        this.updateUserProfile(data.user, profile).subscribe(() => {
             observer.next(true);
             observer.complete();
-          },
-          (error: any) => {
+          }, (error: any) => {
             observer.error(error);
           }
         );
@@ -128,8 +135,8 @@ export class AuthService {
     return this.store.select((state) => {
       return state.session.user;
     })
-    .map((profile: User) => {
-      return profile;
+    .map((user: User) => {
+      return user;
     });
   }
 
@@ -141,15 +148,8 @@ export class AuthService {
         this.internalIsAuthenticatedCheck(observer, iteration + 1);
       }, 100);
     } else {
-      if (this.user && this.user.emailVerified) {
-        this.user.getIdToken().then((token: string) => {
-          observer.next(true);
-          observer.complete();
-        });
-      } else {
-        observer.next(false);
-        observer.complete();
-      }
+      observer.next(this.user && this.user.emailVerified);
+      observer.complete();
     }
   }
 

@@ -4,7 +4,7 @@ import { OrderItem } from './index';
 export class Order {
   $key?: string;
   id: string; // same as $key but won't get deleted
-  userId: string;
+  userEmail: string;
   items: OrderItem[];
   createdAtUtc: string;
   status: 'new' | 'dispatched';
@@ -19,8 +19,8 @@ export class Order {
 
   private _totalPrice: number;
 
-  constructor(userId: string) {
-    this.userId = userId;
+  constructor(userEmail: string) {
+    this.userEmail = userEmail;
     this.createdAtUtc = new Date().toISOString();
     this.active = true;
     this.status = 'new';

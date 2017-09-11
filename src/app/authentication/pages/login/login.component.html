@@ -10,6 +10,8 @@
   <br>
   <div class="ta-center">
     <button pButton type="submit" [disabled]="!loginForm.valid" [ngClass]="{'disabled-button': !loginForm.valid }" label="Log In"></button>
+    <br><br>
+    <button pButton type="button" class="ui-button-danger" label="Log In With Google" (click)="loginWithGoogle()"></button>
   </div>
 </form>
 <br>

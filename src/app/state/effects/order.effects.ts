@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Effect, Actions } from '@ngrx/effects';
 import * as OrderActions from 'app/state/actions/order.actions';
-import { OrderService } from './../../orders/services';
+import { OrderService } from 'app/shared/services';
 import { Order } from 'app/shared/models';
 
 import 'rxjs/add/operator/switchMap';

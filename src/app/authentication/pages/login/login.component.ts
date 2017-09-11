@@ -45,19 +45,32 @@ export class LoginComponent extends BaseComponent implements OnInit {
     }
   }
 
+  loginWithGoogle() {
+    this.authService.loginWithGoogle().subscribe(
+      (response: any) => {
+        this.loginSuccessful();
+      },
+      (error: any) => {
+        this.alertService.create('error', error.message);
+      }
+    );
+  }
+
   register() {
     this.store.dispatch(new RouterActions.Go({ path: ['auth/register'] }));
   }
 
   resetPassword() {
-    alert('not implemented yet');
+    this.alertService.create('info', 'Not implemented...');
   }
 
   private loginSuccessful() {
     this.subscriptions.push(
       this.authService.getCurrentUser()
       .subscribe((profile) => {
-        const newRoute = profile.role !== 'user' ? 'products' : 'shop';
+        const newRoute = (!profile || !profile.role || profile.role === 'user')
+                       ? 'shop'
+                       : 'products';
         this.store.dispatch(new RouterActions.Go({ path: [newRoute] }));
       })
     );

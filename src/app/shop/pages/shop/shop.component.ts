@@ -1,3 +1,4 @@
+import { AlertsService } from '@jaspero/ng2-alerts';
 import { Subscription } from 'rxjs/Subscription';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -24,6 +25,7 @@ export class ShopComponent extends BaseComponent implements OnInit {
 
   currentUser: User;
   products: Product[];
+  existingOrders = 0;
   cart: OrderItem[];
 
   modal: any = {
@@ -34,7 +36,7 @@ export class ShopComponent extends BaseComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private store: Store<fromRoot.State>,
-    private formBuilder: FormBuilder) {
+    private alertService: AlertsService) {
       super();
   }
 
@@ -47,11 +49,23 @@ export class ShopComponent extends BaseComponent implements OnInit {
     );
 
     this.store.dispatch(new ProductActions.ListRequest());
-
     this.subscriptions.push(
       this.store.select('products')
       .subscribe((items: Product[]) => {
         this.products = items;
+      })
+    );
+
+    this.subscriptions.push(
+      this.store.select('orders')
+      .subscribe((items: Order[]) => {
+        items = items.filter((item) => {
+          return item.userEmail === this.currentUser.email;
+        });
+        if (this.existingOrders > 0 && items.length > this.existingOrders) {
+          this.alertService.create('success', 'Order Created Successfuly!');
+        }
+        this.existingOrders = items.length;
       })
     );
 
@@ -89,7 +103,7 @@ export class ShopComponent extends BaseComponent implements OnInit {
   }
 
   checkout() {
-    const order = new Order(this.currentUser.id);
+    const order = new Order(this.currentUser.email);
     order.items = this.cart;
 
     const self = this;

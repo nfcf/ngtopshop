@@ -5,6 +5,7 @@ body {
 
 a {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .flex-container {
@@ -34,27 +35,41 @@ a {
   flex-wrap: wrap;
 }  
 
-.ui-dropdown {
-  width: 100%;
-}
+.main {
+  overflow: auto;
 
-label {
-  display: block;
-}
+  .container {
+    width: 100%;
+    max-height: calc(85vh);
+    text-align: center;
+  }
 
-input {
-  width: 100%;
-}
+  input,
+  p-dropdown,
+  textarea {
+    display: block;
+    margin-bottom: 16px;
+    width: 100%;
+  }
 
-.ta-center {
-  text-align: center !important;
-}
+  .ui-dropdown {
+    width: 100%;
+  }
 
-.panel {
-  min-width: 196px;
-  margin: 16px 16px 16px 0;
-  .ui-panel .ui-panel-footer {
-    text-align: right;
+  label {
+    display: block;
+  }
+
+  .ta-center {
+    text-align: center !important;
+  }
+
+  .panel {
+    min-width: 196px;
+    margin: 16px 16px 16px 0;
+    .ui-panel .ui-panel-footer {
+      text-align: right;
+    }
   }
 }
 

@@ -31,9 +31,9 @@ export class RouteGuardService implements CanActivate {
           return Observable.of(false);
         } else {
           return this.authService.getCurrentUser().map(
-            (profile: User) => {
-              const allowedRoutes = this.getAllowedRoutesForRole(profile.role);
-              return allowedRoutes.indexOf(route.data.routeKey) >= 0;
+            (user: User) => {
+              const allowedRoutes = this.getAllowedRoutesForRole(user.role);
+              return user.active && allowedRoutes.indexOf(route.data.routeKey) >= 0;
             }
           );
         }

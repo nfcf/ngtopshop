@@ -17,7 +17,9 @@
     </p-panel>
   </ul>
   <br>
-  <button pButton (click)="checkout()" label="Checkout" class="ui-button-success"></button>
-
-  <profile-form-dialog [(visible)]="modal.visible" [user]="modal.user" (submit)="save($event)"></profile-form-dialog>
+  <button pButton (click)="checkout()" [disabled]="cart.length === 0" label="Checkout" class="ui-button-success"></button>
 </div>
+
+<profile-form-dialog [(visible)]="modal.visible" [user]="modal.user" (submit)="save($event)"></profile-form-dialog>
+
+<jaspero-alerts [defaultSettings]="{ duration: 0 }"></jaspero-alerts>

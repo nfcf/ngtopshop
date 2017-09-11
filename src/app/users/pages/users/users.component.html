@@ -1,20 +1,22 @@
-<ul class="flex-container wrap">
-  <p-panel *ngFor="let user of users" class="panel">
-    <p-header>
-      {{user.displayName}}
-    </p-header>
-    <p>Email: {{user.email}}</p>
-    <p>Role: {{user.role}}</p>
-    <p>Active: {{user.active}}</p>
-    <hr>
-    <p>{{user.billingAddress}}</p>
-    <p>{{user.shippingAddress}}</p>
-    <p-footer>
-      <button pButton type="button" (click)="toggleUserState(user)" [label]="user.active ? 'Disable' : 'Enable'"
-              [ngClass]="user.active ? 'ui-button-danger' : 'ui-button-success'"></button>
-      <button pButton type="button" (click)="editUser(user)" label="Edit"></button>
-    </p-footer>
-  </p-panel>
-</ul>
+<div class="container">
+  <ul class="flex-container wrap">
+    <p-panel *ngFor="let user of users" class="panel">
+      <p-header>
+        {{user.displayName}}
+      </p-header>
+      <p>Email: {{user.email}}</p>
+      <p>Role: {{user.role}}</p>
+      <p>Active: {{user.active}}</p>
+      <hr>
+      <p>{{user.billingAddress}}</p>
+      <p>{{user.shippingAddress}}</p>
+      <p-footer>
+        <button pButton type="button" (click)="toggleUserState(user)" [label]="user.active ? 'Disable' : 'Enable'"
+                [ngClass]="user.active ? 'ui-button-danger' : 'ui-button-success'"></button>
+        <button pButton type="button" (click)="editUser(user)" label="Edit"></button>
+      </p-footer>
+    </p-panel>
+  </ul>
+</div>
 
 <user-form-dialog [(visible)]="modal.visible" [user]="modal.user" (submit)="save($event)"></user-form-dialog>

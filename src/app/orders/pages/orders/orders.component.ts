@@ -10,6 +10,7 @@ import * as OrderActions from 'app/state/actions/order.actions';
 import * as ProductActions from 'app/state/actions/product.actions';
 import * as fromRoot from 'app/state/reducers';
 import { BaseComponent } from 'app/shared/components';
+import { plainToClass } from 'class-transformer';
 import 'rxjs/add/operator/first';
 
 @Component({
@@ -21,7 +22,8 @@ export class OrdersComponent extends BaseComponent implements OnInit {
 
   statuses: SelectItem[] = [
     { label: 'New', value: 'new' },
-    { label: 'Dispatched', value: 'dispatched' }
+    { label: 'Dispatched', value: 'dispatched' },
+    { label: 'Delivered', value: 'delivered' }
   ];
 
   currentUser: User;
@@ -48,14 +50,13 @@ export class OrdersComponent extends BaseComponent implements OnInit {
       })
     );
 
-    this.store.dispatch(new OrderActions.ListRequest());
-    this.store.dispatch(new ProductActions.ListRequest());
-
     this.subscriptions.push(
       this.store.select('orders')
       .subscribe((items: Order[]) => {
         this.orders = items.filter((item) => {
-          return item.userId === this.currentUser.id;
+          return item.userEmail === this.currentUser.email;
+        }).map((item: Order) => {
+          return plainToClass(Order, item);
         });
       })
     );

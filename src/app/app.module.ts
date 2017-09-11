@@ -16,11 +16,9 @@ import { AuthenticationModule } from './authentication/authentication.module';
 
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found.component';
-import { ProductService } from 'app/shared/services';
-import { OrderService } from './orders/services';
 
 import { CustomRouterStateSerializer } from './shared/utils';
-import { AuthService, DbService, RouteGuardService, UserService } from './shared/services';
+import { AuthService, DbService, OrderService, ProductService, RouteGuardService, UserService } from './shared/services';
 
 import { reducers, metaReducers } from './state/reducers';
 import { OrderEffects, ProductEffects, RouterEffects, UserEffects } from './state/effects';
